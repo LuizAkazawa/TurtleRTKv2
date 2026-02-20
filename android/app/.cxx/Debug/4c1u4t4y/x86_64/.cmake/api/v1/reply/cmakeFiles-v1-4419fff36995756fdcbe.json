@@ -235,6 +235,10 @@
 		},
 		{
 			"isExternal" : true,
+			"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/node_modules/@react-native-community/slider/android/src/main/jni/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
 			"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/node_modules/react-native-ble-manager/android/build/generated/source/codegen/jni/CMakeLists.txt"
 		},
 		{

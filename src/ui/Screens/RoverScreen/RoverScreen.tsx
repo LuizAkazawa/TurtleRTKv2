@@ -1,6 +1,7 @@
 import React from 'react';
 import {Checkbox} from 'react-native-paper';
-import {SafeAreaView, View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import {observer} from 'mobx-react-lite';
 import {useStoreContext} from '../../../fc/Store';
 import ErrorPopUp, {ErrorType} from './BLE/ErrorPopUp';

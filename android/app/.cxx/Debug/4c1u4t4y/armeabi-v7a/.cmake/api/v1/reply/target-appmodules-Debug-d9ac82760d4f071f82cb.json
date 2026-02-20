@@ -23,6 +23,7 @@
 			"/Users/luizakazawa/Documents/Code/TurtleRTKv2/node_modules/react-native/ReactAndroid/cmake-utils/ReactNative-application.cmake",
 			"CMakeLists.txt",
 			"/Users/luizakazawa/Documents/Code/TurtleRTKv2/node_modules/react-native/ReactCommon/cmake-utils/react-native-flags.cmake",
+			"/Users/luizakazawa/Documents/Code/TurtleRTKv2/node_modules/@react-native-community/slider/android/src/main/jni/CMakeLists.txt",
 			"/Users/luizakazawa/Documents/Code/TurtleRTKv2/node_modules/react-native-safe-area-context/android/src/main/jni/CMakeLists.txt",
 			"/Users/luizakazawa/Documents/Code/TurtleRTKv2/node_modules/react-native-screens/android/src/main/jni/CMakeLists.txt"
 		],
@@ -89,7 +90,7 @@
 			{
 				"command" : 6,
 				"file" : 3,
-				"line" : 62,
+				"line" : 89,
 				"parent" : 10
 			},
 			{
@@ -98,8 +99,17 @@
 			{
 				"command" : 6,
 				"file" : 4,
-				"line" : 63,
+				"line" : 62,
 				"parent" : 12
+			},
+			{
+				"file" : 5
+			},
+			{
+				"command" : 6,
+				"file" : 5,
+				"line" : 63,
+				"parent" : 14
 			}
 		]
 	},
@@ -190,10 +200,14 @@
 				},
 				{
 					"backtrace" : 11,
-					"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/node_modules/react-native-safe-area-context/android/src/main/jni"
+					"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/node_modules/@react-native-community/slider/android/src/main/jni"
 				},
 				{
 					"backtrace" : 13,
+					"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/node_modules/react-native-safe-area-context/android/src/main/jni"
+				},
+				{
+					"backtrace" : 15,
 					"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/node_modules/react-native-screens/android/src/main/jni"
 				},
 				{
@@ -211,6 +225,22 @@
 				{
 					"backtrace" : 4,
 					"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/node_modules/@react-native-community/geolocation/android/build/generated/source/codegen/jni/react/renderer/components/RNCGeolocationSpec"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/node_modules/@react-native-community/slider/android/src/main/jni/."
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/node_modules/@react-native-community/slider/android/src/main/jni/../../../../common/cpp"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/node_modules/@react-native-community/slider/android/src/main/jni/../../../build/generated/source/codegen/jni"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/node_modules/@react-native-community/slider/android/src/main/jni/../../../build/generated/source/codegen/jni/react/renderer/components/RNCSlider"
 				},
 				{
 					"backtrace" : 4,
@@ -308,6 +338,10 @@
 		},
 		{
 			"backtrace" : 4,
+			"id" : "react_codegen_RNCSlider::@4898bc4726ecf1751b6a"
+		},
+		{
+			"backtrace" : 4,
 			"id" : "react_codegen_BleManagerSpec::@01890c398a2a0f0b7a77"
 		},
 		{
@@ -335,6 +369,11 @@
 			{
 				"fragment" : "-Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments",
 				"role" : "flags"
+			},
+			{
+				"backtrace" : 4,
+				"fragment" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/build/intermediates/cxx/Debug/4c1u4t4y/obj/armeabi-v7a/libreact_codegen_RNCSlider.so",
+				"role" : "libraries"
 			},
 			{
 				"backtrace" : 4,

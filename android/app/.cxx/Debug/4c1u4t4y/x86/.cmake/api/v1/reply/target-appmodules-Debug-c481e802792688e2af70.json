@@ -2,7 +2,7 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/build/intermediates/cxx/Debug/4c1u4t4y/obj/arm64-v8a/libappmodules.so"
+			"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/build/intermediates/cxx/Debug/4c1u4t4y/obj/x86/libappmodules.so"
 		}
 	],
 	"backtrace" : 3,
@@ -23,6 +23,7 @@
 			"/Users/luizakazawa/Documents/Code/TurtleRTKv2/node_modules/react-native/ReactAndroid/cmake-utils/ReactNative-application.cmake",
 			"CMakeLists.txt",
 			"/Users/luizakazawa/Documents/Code/TurtleRTKv2/node_modules/react-native/ReactCommon/cmake-utils/react-native-flags.cmake",
+			"/Users/luizakazawa/Documents/Code/TurtleRTKv2/node_modules/@react-native-community/slider/android/src/main/jni/CMakeLists.txt",
 			"/Users/luizakazawa/Documents/Code/TurtleRTKv2/node_modules/react-native-safe-area-context/android/src/main/jni/CMakeLists.txt",
 			"/Users/luizakazawa/Documents/Code/TurtleRTKv2/node_modules/react-native-screens/android/src/main/jni/CMakeLists.txt"
 		],
@@ -89,7 +90,7 @@
 			{
 				"command" : 6,
 				"file" : 3,
-				"line" : 62,
+				"line" : 89,
 				"parent" : 10
 			},
 			{
@@ -98,8 +99,17 @@
 			{
 				"command" : 6,
 				"file" : 4,
-				"line" : 63,
+				"line" : 62,
 				"parent" : 12
+			},
+			{
+				"file" : 5
+			},
+			{
+				"command" : 6,
+				"file" : 5,
+				"line" : 63,
+				"parent" : 14
 			}
 		]
 	},
@@ -190,10 +200,14 @@
 				},
 				{
 					"backtrace" : 11,
-					"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/node_modules/react-native-safe-area-context/android/src/main/jni"
+					"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/node_modules/@react-native-community/slider/android/src/main/jni"
 				},
 				{
 					"backtrace" : 13,
+					"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/node_modules/react-native-safe-area-context/android/src/main/jni"
+				},
+				{
+					"backtrace" : 15,
 					"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/node_modules/react-native-screens/android/src/main/jni"
 				},
 				{
@@ -211,6 +225,22 @@
 				{
 					"backtrace" : 4,
 					"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/node_modules/@react-native-community/geolocation/android/build/generated/source/codegen/jni/react/renderer/components/RNCGeolocationSpec"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/node_modules/@react-native-community/slider/android/src/main/jni/."
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/node_modules/@react-native-community/slider/android/src/main/jni/../../../../common/cpp"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/node_modules/@react-native-community/slider/android/src/main/jni/../../../build/generated/source/codegen/jni"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/node_modules/@react-native-community/slider/android/src/main/jni/../../../build/generated/source/codegen/jni/react/renderer/components/RNCSlider"
 				},
 				{
 					"backtrace" : 4,
@@ -308,6 +338,10 @@
 		},
 		{
 			"backtrace" : 4,
+			"id" : "react_codegen_RNCSlider::@4898bc4726ecf1751b6a"
+		},
+		{
+			"backtrace" : 4,
 			"id" : "react_codegen_BleManagerSpec::@01890c398a2a0f0b7a77"
 		},
 		{
@@ -333,32 +367,37 @@
 		"commandFragments" : 
 		[
 			{
-				"fragment" : "-Wl,-z,max-page-size=16384 -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments",
+				"fragment" : "-Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments",
 				"role" : "flags"
 			},
 			{
 				"backtrace" : 4,
-				"fragment" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/build/intermediates/cxx/Debug/4c1u4t4y/obj/arm64-v8a/libreact_codegen_safeareacontext.so",
+				"fragment" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/build/intermediates/cxx/Debug/4c1u4t4y/obj/x86/libreact_codegen_RNCSlider.so",
 				"role" : "libraries"
 			},
 			{
 				"backtrace" : 4,
-				"fragment" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/build/intermediates/cxx/Debug/4c1u4t4y/obj/arm64-v8a/libreact_codegen_rnscreens.so",
+				"fragment" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/build/intermediates/cxx/Debug/4c1u4t4y/obj/x86/libreact_codegen_safeareacontext.so",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 4,
+				"fragment" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/build/intermediates/cxx/Debug/4c1u4t4y/obj/x86/libreact_codegen_rnscreens.so",
 				"role" : "libraries"
 			},
 			{
 				"backtrace" : 5,
-				"fragment" : "/Users/luizakazawa/.gradle/caches/9.0.0/transforms/e2575a32666c9d6ebbf516280d8f962f/transformed/fbjni-0.7.0/prefab/modules/fbjni/libs/android.arm64-v8a/libfbjni.so",
+				"fragment" : "/Users/luizakazawa/.gradle/caches/9.0.0/transforms/e2575a32666c9d6ebbf516280d8f962f/transformed/fbjni-0.7.0/prefab/modules/fbjni/libs/android.x86/libfbjni.so",
 				"role" : "libraries"
 			},
 			{
 				"backtrace" : 5,
-				"fragment" : "/Users/luizakazawa/.gradle/caches/9.0.0/transforms/6674e6cc609acce3f4c1e3e62b9ca47c/transformed/react-android-0.84.0-debug/prefab/modules/jsi/libs/android.arm64-v8a/libjsi.so",
+				"fragment" : "/Users/luizakazawa/.gradle/caches/9.0.0/transforms/6674e6cc609acce3f4c1e3e62b9ca47c/transformed/react-android-0.84.0-debug/prefab/modules/jsi/libs/android.x86/libjsi.so",
 				"role" : "libraries"
 			},
 			{
 				"backtrace" : 5,
-				"fragment" : "/Users/luizakazawa/.gradle/caches/9.0.0/transforms/6674e6cc609acce3f4c1e3e62b9ca47c/transformed/react-android-0.84.0-debug/prefab/modules/reactnative/libs/android.arm64-v8a/libreactnative.so",
+				"fragment" : "/Users/luizakazawa/.gradle/caches/9.0.0/transforms/6674e6cc609acce3f4c1e3e62b9ca47c/transformed/react-android-0.84.0-debug/prefab/modules/reactnative/libs/android.x86/libreactnative.so",
 				"role" : "libraries"
 			},
 			{
@@ -443,181 +482,181 @@
 		{
 			"backtrace" : 4,
 			"isGenerated" : true,
-			"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/arm64-v8a/rnasyncstorage_autolinked_build/CMakeFiles/react_codegen_rnasyncstorage.dir/react/renderer/components/rnasyncstorage/ComponentDescriptors.cpp.o",
+			"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/x86/rnasyncstorage_autolinked_build/CMakeFiles/react_codegen_rnasyncstorage.dir/react/renderer/components/rnasyncstorage/ComponentDescriptors.cpp.o",
 			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 4,
 			"isGenerated" : true,
-			"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/arm64-v8a/rnasyncstorage_autolinked_build/CMakeFiles/react_codegen_rnasyncstorage.dir/react/renderer/components/rnasyncstorage/EventEmitters.cpp.o",
+			"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/x86/rnasyncstorage_autolinked_build/CMakeFiles/react_codegen_rnasyncstorage.dir/react/renderer/components/rnasyncstorage/EventEmitters.cpp.o",
 			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 4,
 			"isGenerated" : true,
-			"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/arm64-v8a/rnasyncstorage_autolinked_build/CMakeFiles/react_codegen_rnasyncstorage.dir/react/renderer/components/rnasyncstorage/Props.cpp.o",
+			"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/x86/rnasyncstorage_autolinked_build/CMakeFiles/react_codegen_rnasyncstorage.dir/react/renderer/components/rnasyncstorage/Props.cpp.o",
 			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 4,
 			"isGenerated" : true,
-			"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/arm64-v8a/rnasyncstorage_autolinked_build/CMakeFiles/react_codegen_rnasyncstorage.dir/react/renderer/components/rnasyncstorage/ShadowNodes.cpp.o",
+			"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/x86/rnasyncstorage_autolinked_build/CMakeFiles/react_codegen_rnasyncstorage.dir/react/renderer/components/rnasyncstorage/ShadowNodes.cpp.o",
 			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 4,
 			"isGenerated" : true,
-			"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/arm64-v8a/rnasyncstorage_autolinked_build/CMakeFiles/react_codegen_rnasyncstorage.dir/react/renderer/components/rnasyncstorage/States.cpp.o",
+			"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/x86/rnasyncstorage_autolinked_build/CMakeFiles/react_codegen_rnasyncstorage.dir/react/renderer/components/rnasyncstorage/States.cpp.o",
 			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 4,
 			"isGenerated" : true,
-			"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/arm64-v8a/rnasyncstorage_autolinked_build/CMakeFiles/react_codegen_rnasyncstorage.dir/rnasyncstorage-generated.cpp.o",
+			"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/x86/rnasyncstorage_autolinked_build/CMakeFiles/react_codegen_rnasyncstorage.dir/rnasyncstorage-generated.cpp.o",
 			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 4,
 			"isGenerated" : true,
-			"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/arm64-v8a/RNCGeolocationSpec_autolinked_build/CMakeFiles/react_codegen_RNCGeolocationSpec.dir/RNCGeolocationSpec-generated.cpp.o",
+			"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/x86/RNCGeolocationSpec_autolinked_build/CMakeFiles/react_codegen_RNCGeolocationSpec.dir/RNCGeolocationSpec-generated.cpp.o",
 			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 4,
 			"isGenerated" : true,
-			"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/arm64-v8a/RNCGeolocationSpec_autolinked_build/CMakeFiles/react_codegen_RNCGeolocationSpec.dir/react/renderer/components/RNCGeolocationSpec/ComponentDescriptors.cpp.o",
+			"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/x86/RNCGeolocationSpec_autolinked_build/CMakeFiles/react_codegen_RNCGeolocationSpec.dir/react/renderer/components/RNCGeolocationSpec/ComponentDescriptors.cpp.o",
 			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 4,
 			"isGenerated" : true,
-			"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/arm64-v8a/RNCGeolocationSpec_autolinked_build/CMakeFiles/react_codegen_RNCGeolocationSpec.dir/react/renderer/components/RNCGeolocationSpec/EventEmitters.cpp.o",
+			"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/x86/RNCGeolocationSpec_autolinked_build/CMakeFiles/react_codegen_RNCGeolocationSpec.dir/react/renderer/components/RNCGeolocationSpec/EventEmitters.cpp.o",
 			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 4,
 			"isGenerated" : true,
-			"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/arm64-v8a/RNCGeolocationSpec_autolinked_build/CMakeFiles/react_codegen_RNCGeolocationSpec.dir/react/renderer/components/RNCGeolocationSpec/Props.cpp.o",
+			"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/x86/RNCGeolocationSpec_autolinked_build/CMakeFiles/react_codegen_RNCGeolocationSpec.dir/react/renderer/components/RNCGeolocationSpec/Props.cpp.o",
 			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 4,
 			"isGenerated" : true,
-			"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/arm64-v8a/RNCGeolocationSpec_autolinked_build/CMakeFiles/react_codegen_RNCGeolocationSpec.dir/react/renderer/components/RNCGeolocationSpec/ShadowNodes.cpp.o",
+			"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/x86/RNCGeolocationSpec_autolinked_build/CMakeFiles/react_codegen_RNCGeolocationSpec.dir/react/renderer/components/RNCGeolocationSpec/ShadowNodes.cpp.o",
 			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 4,
 			"isGenerated" : true,
-			"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/arm64-v8a/RNCGeolocationSpec_autolinked_build/CMakeFiles/react_codegen_RNCGeolocationSpec.dir/react/renderer/components/RNCGeolocationSpec/States.cpp.o",
+			"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/x86/RNCGeolocationSpec_autolinked_build/CMakeFiles/react_codegen_RNCGeolocationSpec.dir/react/renderer/components/RNCGeolocationSpec/States.cpp.o",
 			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 4,
 			"isGenerated" : true,
-			"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/arm64-v8a/BleManagerSpec_autolinked_build/CMakeFiles/react_codegen_BleManagerSpec.dir/BleManagerSpec-generated.cpp.o",
+			"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/x86/BleManagerSpec_autolinked_build/CMakeFiles/react_codegen_BleManagerSpec.dir/BleManagerSpec-generated.cpp.o",
 			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 4,
 			"isGenerated" : true,
-			"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/arm64-v8a/BleManagerSpec_autolinked_build/CMakeFiles/react_codegen_BleManagerSpec.dir/react/renderer/components/BleManagerSpec/ComponentDescriptors.cpp.o",
+			"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/x86/BleManagerSpec_autolinked_build/CMakeFiles/react_codegen_BleManagerSpec.dir/react/renderer/components/BleManagerSpec/ComponentDescriptors.cpp.o",
 			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 4,
 			"isGenerated" : true,
-			"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/arm64-v8a/BleManagerSpec_autolinked_build/CMakeFiles/react_codegen_BleManagerSpec.dir/react/renderer/components/BleManagerSpec/EventEmitters.cpp.o",
+			"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/x86/BleManagerSpec_autolinked_build/CMakeFiles/react_codegen_BleManagerSpec.dir/react/renderer/components/BleManagerSpec/EventEmitters.cpp.o",
 			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 4,
 			"isGenerated" : true,
-			"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/arm64-v8a/BleManagerSpec_autolinked_build/CMakeFiles/react_codegen_BleManagerSpec.dir/react/renderer/components/BleManagerSpec/Props.cpp.o",
+			"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/x86/BleManagerSpec_autolinked_build/CMakeFiles/react_codegen_BleManagerSpec.dir/react/renderer/components/BleManagerSpec/Props.cpp.o",
 			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 4,
 			"isGenerated" : true,
-			"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/arm64-v8a/BleManagerSpec_autolinked_build/CMakeFiles/react_codegen_BleManagerSpec.dir/react/renderer/components/BleManagerSpec/ShadowNodes.cpp.o",
+			"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/x86/BleManagerSpec_autolinked_build/CMakeFiles/react_codegen_BleManagerSpec.dir/react/renderer/components/BleManagerSpec/ShadowNodes.cpp.o",
 			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 4,
 			"isGenerated" : true,
-			"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/arm64-v8a/BleManagerSpec_autolinked_build/CMakeFiles/react_codegen_BleManagerSpec.dir/react/renderer/components/BleManagerSpec/States.cpp.o",
+			"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/x86/BleManagerSpec_autolinked_build/CMakeFiles/react_codegen_BleManagerSpec.dir/react/renderer/components/BleManagerSpec/States.cpp.o",
 			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 4,
 			"isGenerated" : true,
-			"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/arm64-v8a/rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/ComponentDescriptors.cpp.o",
+			"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/x86/rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/ComponentDescriptors.cpp.o",
 			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 4,
 			"isGenerated" : true,
-			"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/arm64-v8a/rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/EventEmitters.cpp.o",
+			"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/x86/rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/EventEmitters.cpp.o",
 			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 4,
 			"isGenerated" : true,
-			"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/arm64-v8a/rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/Props.cpp.o",
+			"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/x86/rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/Props.cpp.o",
 			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 4,
 			"isGenerated" : true,
-			"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/arm64-v8a/rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/ShadowNodes.cpp.o",
+			"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/x86/rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/ShadowNodes.cpp.o",
 			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 4,
 			"isGenerated" : true,
-			"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/arm64-v8a/rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/States.cpp.o",
+			"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/x86/rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/react/renderer/components/rngesturehandler_codegen/States.cpp.o",
 			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 4,
 			"isGenerated" : true,
-			"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/arm64-v8a/rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/rngesturehandler_codegen-generated.cpp.o",
+			"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/x86/rngesturehandler_codegen_autolinked_build/CMakeFiles/react_codegen_rngesturehandler_codegen.dir/rngesturehandler_codegen-generated.cpp.o",
 			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 4,
 			"isGenerated" : true,
-			"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/arm64-v8a/RNVectorIconsSpec_autolinked_build/CMakeFiles/react_codegen_RNVectorIconsSpec.dir/RNVectorIconsSpec-generated.cpp.o",
+			"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/x86/RNVectorIconsSpec_autolinked_build/CMakeFiles/react_codegen_RNVectorIconsSpec.dir/RNVectorIconsSpec-generated.cpp.o",
 			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 4,
 			"isGenerated" : true,
-			"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/arm64-v8a/RNVectorIconsSpec_autolinked_build/CMakeFiles/react_codegen_RNVectorIconsSpec.dir/react/renderer/components/RNVectorIconsSpec/ComponentDescriptors.cpp.o",
+			"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/x86/RNVectorIconsSpec_autolinked_build/CMakeFiles/react_codegen_RNVectorIconsSpec.dir/react/renderer/components/RNVectorIconsSpec/ComponentDescriptors.cpp.o",
 			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 4,
 			"isGenerated" : true,
-			"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/arm64-v8a/RNVectorIconsSpec_autolinked_build/CMakeFiles/react_codegen_RNVectorIconsSpec.dir/react/renderer/components/RNVectorIconsSpec/EventEmitters.cpp.o",
+			"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/x86/RNVectorIconsSpec_autolinked_build/CMakeFiles/react_codegen_RNVectorIconsSpec.dir/react/renderer/components/RNVectorIconsSpec/EventEmitters.cpp.o",
 			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 4,
 			"isGenerated" : true,
-			"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/arm64-v8a/RNVectorIconsSpec_autolinked_build/CMakeFiles/react_codegen_RNVectorIconsSpec.dir/react/renderer/components/RNVectorIconsSpec/Props.cpp.o",
+			"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/x86/RNVectorIconsSpec_autolinked_build/CMakeFiles/react_codegen_RNVectorIconsSpec.dir/react/renderer/components/RNVectorIconsSpec/Props.cpp.o",
 			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 4,
 			"isGenerated" : true,
-			"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/arm64-v8a/RNVectorIconsSpec_autolinked_build/CMakeFiles/react_codegen_RNVectorIconsSpec.dir/react/renderer/components/RNVectorIconsSpec/ShadowNodes.cpp.o",
+			"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/x86/RNVectorIconsSpec_autolinked_build/CMakeFiles/react_codegen_RNVectorIconsSpec.dir/react/renderer/components/RNVectorIconsSpec/ShadowNodes.cpp.o",
 			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 4,
 			"isGenerated" : true,
-			"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/arm64-v8a/RNVectorIconsSpec_autolinked_build/CMakeFiles/react_codegen_RNVectorIconsSpec.dir/react/renderer/components/RNVectorIconsSpec/States.cpp.o",
+			"path" : "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/x86/RNVectorIconsSpec_autolinked_build/CMakeFiles/react_codegen_RNVectorIconsSpec.dir/react/renderer/components/RNVectorIconsSpec/States.cpp.o",
 			"sourceGroupIndex" : 1
 		}
 	],

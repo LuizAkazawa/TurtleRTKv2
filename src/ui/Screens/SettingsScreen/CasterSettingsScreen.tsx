@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
-import {SafeAreaView, View, Text, StyleSheet,} from 'react-native';
+import { View, Text, StyleSheet,} from 'react-native';
 import {RadioButton, RadioGroup} from 'react-native-ui-lib';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import Slider from '@react-native-community/slider';
 import {observer} from 'mobx-react-lite';
 import {AppStore, useStoreContext} from '../../../fc/Store';

@@ -1,14 +1,15 @@
 import {observer} from 'mobx-react-lite';
 import React from 'react';
 import {
-  SafeAreaView,
   View,
   Text,
   Pressable,
   StyleSheet,
   Alert,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import {List} from 'react-native-paper';
+
 
 interface Props {
   navigation: any;
