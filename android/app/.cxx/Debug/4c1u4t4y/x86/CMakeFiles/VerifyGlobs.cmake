@@ -185,6 +185,30 @@ if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
   file(TOUCH_NOCREATE "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/x86/CMakeFiles/cmake.verify_globs")
 endif()
 
+# react_codegen_SRCS at /Users/luizakazawa/Documents/Code/TurtleRTKv2/node_modules/react-native-vector-icons/android/build/generated/source/codegen/jni/CMakeLists.txt:9 (file)
+file(GLOB NEW_GLOB LIST_DIRECTORIES true "/Users/luizakazawa/Documents/Code/TurtleRTKv2/node_modules/react-native-vector-icons/android/build/generated/source/codegen/jni/*.cpp")
+set(OLD_GLOB
+  "/Users/luizakazawa/Documents/Code/TurtleRTKv2/node_modules/react-native-vector-icons/android/build/generated/source/codegen/jni/RNVectorIconsSpec-generated.cpp"
+  )
+if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
+  message("-- GLOB mismatch!")
+  file(TOUCH_NOCREATE "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/x86/CMakeFiles/cmake.verify_globs")
+endif()
+
+# react_codegen_SRCS at /Users/luizakazawa/Documents/Code/TurtleRTKv2/node_modules/react-native-vector-icons/android/build/generated/source/codegen/jni/CMakeLists.txt:9 (file)
+file(GLOB NEW_GLOB LIST_DIRECTORIES true "/Users/luizakazawa/Documents/Code/TurtleRTKv2/node_modules/react-native-vector-icons/android/build/generated/source/codegen/jni/react/renderer/components/RNVectorIconsSpec/*.cpp")
+set(OLD_GLOB
+  "/Users/luizakazawa/Documents/Code/TurtleRTKv2/node_modules/react-native-vector-icons/android/build/generated/source/codegen/jni/react/renderer/components/RNVectorIconsSpec/ComponentDescriptors.cpp"
+  "/Users/luizakazawa/Documents/Code/TurtleRTKv2/node_modules/react-native-vector-icons/android/build/generated/source/codegen/jni/react/renderer/components/RNVectorIconsSpec/EventEmitters.cpp"
+  "/Users/luizakazawa/Documents/Code/TurtleRTKv2/node_modules/react-native-vector-icons/android/build/generated/source/codegen/jni/react/renderer/components/RNVectorIconsSpec/Props.cpp"
+  "/Users/luizakazawa/Documents/Code/TurtleRTKv2/node_modules/react-native-vector-icons/android/build/generated/source/codegen/jni/react/renderer/components/RNVectorIconsSpec/ShadowNodes.cpp"
+  "/Users/luizakazawa/Documents/Code/TurtleRTKv2/node_modules/react-native-vector-icons/android/build/generated/source/codegen/jni/react/renderer/components/RNVectorIconsSpec/States.cpp"
+  )
+if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
+  message("-- GLOB mismatch!")
+  file(TOUCH_NOCREATE "/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/x86/CMakeFiles/cmake.verify_globs")
+endif()
+
 # override_cpp_SRC at /Users/luizakazawa/Documents/Code/TurtleRTKv2/node_modules/react-native/ReactAndroid/cmake-utils/ReactNative-application.cmake:50 (file)
 # input_SRC at /Users/luizakazawa/Documents/Code/TurtleRTKv2/node_modules/react-native/ReactAndroid/cmake-utils/ReactNative-application.cmake:55 (file)
 file(GLOB NEW_GLOB LIST_DIRECTORIES true "/Users/luizakazawa/Documents/Code/TurtleRTKv2/node_modules/react-native/ReactAndroid/cmake-utils/default-app-setup/*.cpp")

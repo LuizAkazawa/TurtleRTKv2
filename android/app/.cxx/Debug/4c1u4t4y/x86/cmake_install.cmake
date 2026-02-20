@@ -49,6 +49,7 @@ if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   include("/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/x86/rngesturehandler_codegen_autolinked_build/cmake_install.cmake")
   include("/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/x86/safeareacontext_autolinked_build/cmake_install.cmake")
   include("/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/x86/rnscreens_autolinked_build/cmake_install.cmake")
+  include("/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/x86/RNVectorIconsSpec_autolinked_build/cmake_install.cmake")
 
 endif()
 

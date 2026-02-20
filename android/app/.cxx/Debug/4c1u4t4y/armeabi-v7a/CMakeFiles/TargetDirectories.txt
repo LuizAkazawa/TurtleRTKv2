@@ -16,3 +16,6 @@
 /Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/armeabi-v7a/rnscreens_autolinked_build/CMakeFiles/react_codegen_rnscreens.dir
 /Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/armeabi-v7a/rnscreens_autolinked_build/CMakeFiles/edit_cache.dir
 /Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/armeabi-v7a/rnscreens_autolinked_build/CMakeFiles/rebuild_cache.dir
+/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/armeabi-v7a/RNVectorIconsSpec_autolinked_build/CMakeFiles/react_codegen_RNVectorIconsSpec.dir
+/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/armeabi-v7a/RNVectorIconsSpec_autolinked_build/CMakeFiles/edit_cache.dir
+/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/armeabi-v7a/RNVectorIconsSpec_autolinked_build/CMakeFiles/rebuild_cache.dir
