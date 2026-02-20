@@ -1,0 +1,49 @@
+# --- Dependencies ---
+node_modules/
+jspm_packages/
+.npm
+.eslintcache
+
+# --- Android ---
+.gradle
+build/
+local.properties
+*.keystore
+!debug.keystore
+*.apk
+*.aab
+*.jks
+
+# --- iOS ---
+ios/build/
+ios/Pods/
+ios/Podfile.lock
+ios/*.xcworkspace
+ios/*.xcodeproj/project.xcormdata
+ios/*.xcodeproj/xcuserdata/
+*.perspectivev3
+*.pbxuser
+DerivedData/
+
+# --- Environment & Secrets ---
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# --- Expo (If applicable) ---
+.expo/
+dist/
+web-build/
+
+# --- IDEs & Editors ---
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# --- Testing ---
+coverage/
+__tests__/*.js.snap
