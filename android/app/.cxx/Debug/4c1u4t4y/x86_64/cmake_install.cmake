@@ -45,6 +45,7 @@ endif()
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
   include("/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/x86_64/rnasyncstorage_autolinked_build/cmake_install.cmake")
+  include("/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/x86_64/RNCGeolocationSpec_autolinked_build/cmake_install.cmake")
   include("/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/x86_64/BleManagerSpec_autolinked_build/cmake_install.cmake")
   include("/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/x86_64/rngesturehandler_codegen_autolinked_build/cmake_install.cmake")
   include("/Users/luizakazawa/Documents/Code/TurtleRTKv2/android/app/.cxx/Debug/4c1u4t4y/x86_64/safeareacontext_autolinked_build/cmake_install.cmake")
