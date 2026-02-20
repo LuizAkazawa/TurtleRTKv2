@@ -1,7 +1,9 @@
 import React, {useState} from 'react';
 
-import {SafeAreaView, StyleSheet} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {useStoreContext} from '../../../fc/Store';
+
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import SourceTable from '../../../fc/Caster/SourceTable';
 import {observer} from 'mobx-react-lite';

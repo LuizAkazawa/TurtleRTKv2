@@ -1,9 +1,10 @@
-const {EventEmitter} = require('events');
+import { EventEmitter } from 'events';
+import { Buffer } from 'buffer';
+import net from 'react-native-tcp-socket';
+
 const config = require('./config');
-const {NtripDecoder} = require('../decoder/decoder');
-const net = require('net');
+const { NtripDecoder } = require('../decoder/decoder');
 const utils = require('./utils');
-import {Buffer} from 'buffer';
 
 export class NtripClientV1 extends EventEmitter {
   /**
@@ -252,7 +253,3 @@ export class NtripClientV1 extends EventEmitter {
     this.emit('data', data);
   }
 }
-
-module.exports = {
-  NtripClientV1: NtripClientV1,
-};

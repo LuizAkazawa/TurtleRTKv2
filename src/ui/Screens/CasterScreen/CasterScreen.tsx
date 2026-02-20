@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
-import {SafeAreaView, StyleSheet} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {observer} from 'mobx-react-lite';
+
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import Geolocation from '@react-native-community/geolocation';
 
@@ -17,7 +19,7 @@ import HeaderCasterScreen from './HeaderCasterScreen';
 import BaseList from './BaseList';
 import BaseModal from './BaseModal';
 import ConnectedBase from './ConnectedBase';
-import {ConnectionStatusBar} from 'react-native-ui-lib';
+import ConnectionStatusBar from 'react-native-ui-lib/src/components/connectionStatusBar';
 
 let latitude = 45.184434;
 let longitude = 5.75397;
