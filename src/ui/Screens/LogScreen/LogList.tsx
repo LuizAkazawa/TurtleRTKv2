@@ -22,7 +22,6 @@ export default observer(function LogList({modifySelectedLog}: LogListProps) {
       data={store.logManager.logList}
       renderItem={renderItem}
       keyExtractor={item => item.name + item.size}
-      estimatedItemSize={100}
       refreshControl={
         <RefreshControl
           refreshing={false}

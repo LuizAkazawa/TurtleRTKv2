@@ -1,6 +1,6 @@
 import Modal from 'react-native-modal';
 import {ScrollView, Text, View} from 'react-native';
-import {Chip, Paragraph} from 'react-native-paper';
+import {Chip, Text as PaperText} from 'react-native-paper';
 import React from 'react';
 import {styles} from './CasterScreen';
 import Base from '../../../fc/Caster/Base';
@@ -70,28 +70,28 @@ export default function BaseModal({
               </Chip>
             </View>
             <View style={styles.baseText}>
-              <Paragraph style={styles.baseText}>
+              <PaperText variant="bodyMedium" style={styles.baseText}>
                 Position : {base.latitude}, {base.longitude}
-              </Paragraph>
-              <Paragraph style={styles.baseText}>
+              </PaperText>
+              <PaperText variant="bodyMedium" style={styles.baseText}>
                 Bitrate : {base.bitrate} bits per second
-              </Paragraph>
-              <Paragraph style={styles.baseText}>
+              </PaperText>
+              <PaperText variant="bodyMedium" style={styles.baseText}>
                 Network : {base.network}
-              </Paragraph>
-              <Paragraph style={styles.baseText}>
+              </PaperText>
+              <PaperText variant="bodyMedium" style={styles.baseText}>
                 Format : {base.format + ' (' + base.formatDetails + ')'}
-              </Paragraph>
-              <Paragraph style={styles.baseText}>
+              </PaperText>
+              <PaperText variant="bodyMedium" style={styles.baseText}>
                 Carrier : {base.carrier}
-              </Paragraph>
-              <Paragraph style={styles.baseText}>
+              </PaperText>
+              <PaperText variant="bodyMedium" style={styles.baseText}>
                 NavSystem : {base.navSystem}
-              </Paragraph>
-              <Paragraph style={styles.baseText}>
+              </PaperText>
+              <PaperText variant="bodyMedium" style={styles.baseText}>
                 Compression : {base.compression}
-              </Paragraph>
-              <Paragraph style={styles.baseText}>Misc : {base.misc}</Paragraph>
+              </PaperText>
+              <PaperText variant="bodyMedium" style={styles.baseText}>Misc : {base.misc}</PaperText>
             </View>
           </View>
         </ScrollView>

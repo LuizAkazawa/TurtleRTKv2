@@ -25,6 +25,7 @@
     "react-native": "0.84.0",
     "react-native-ble-manager": "^12.4.4",
     "react-native-country-flag": "^2.0.2",
+    "react-native-element-dropdown": "^2.12.4",
     "react-native-fs": "^2.20.0",
     "react-native-gesture-handler": "^2.30.0",
     "react-native-modal": "^14.0.0-rc.1",

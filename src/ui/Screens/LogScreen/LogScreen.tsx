@@ -1,7 +1,6 @@
 import {observer} from 'mobx-react-lite';
 import React, {useState} from 'react';
 import {
-  SafeAreaView,
   View,
   Text,
   StyleSheet,
@@ -13,6 +12,7 @@ import LogListItem from './LogListItem';
 import LogList from './LogList';
 import LogModal from './LogModal';
 import {ReadDirItem} from 'react-native-fs';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 interface Props {
   navigation: any;

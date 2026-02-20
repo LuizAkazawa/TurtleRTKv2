@@ -35,7 +35,6 @@ export default observer(function BaseList({
       data={sortedBaseList}
       renderItem={renderItem}
       keyExtractor={item => item.key}
-      estimatedItemSize={100}
       refreshControl={
         <RefreshControl
           refreshing={false}
