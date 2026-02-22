@@ -76,11 +76,12 @@ export default class LogManager {
   /**
    * If /recordings does not exist, we create one
    */
-  handleRecordingDirectory() {
-    if (!this.findDirectory(this.recordingPath)) {
-      RNFS.mkdir(this.recordingPath);
-    }
+async handleRecordingDirectory() {
+  const exists = await RNFS.exists(this.recordingPath);
+  if (!exists) {
+    await RNFS.mkdir(this.recordingPath);
   }
+}
 
   /**
    * Write a file with content in
@@ -168,13 +169,16 @@ export default class LogManager {
    * @param path - is the file path
    */
   getFile(path: string) {
-    runInAction(() => RNFS.readFile(path))
+    RNFS.readFile(path)
       .then((content: string) => {
-        this.modifyContent(content);
+        runInAction(() => this.modifyContent(content));
       })
       .then(() => RNFS.stat(path))
       .then(infos => {
-        this.modifyInfo(infos);
+        runInAction(() => this.modifyInfo(infos));
+      })
+      .catch(err => {
+        console.log('Error reading file:', err.message);
       });
   }
 
@@ -182,8 +186,14 @@ export default class LogManager {
    * Get all the files in ./directory
    */
   getLogs() {
-    RNFS.readDir(this.recordingPath).then(result => {
-      this.setLogList(result);
-    });
+    RNFS.readDir(this.recordingPath)
+      .then(result => {
+        runInAction(() => {
+          this.setLogList(result);
+        });
+      })
+      .catch(err => {
+        console.log('Error reading logs directory:', err.message);
+      });
   }
 }

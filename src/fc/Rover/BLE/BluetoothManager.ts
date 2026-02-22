@@ -1,20 +1,15 @@
 import BleManager, { PeripheralInfo } from 'react-native-ble-manager';
-import { NativeEventEmitter, NativeModules } from 'react-native';
-import {makeAutoObservable, runInAction} from 'mobx';
-import {AppStore} from '../../Store';
-
-const BleManagerModule = NativeModules.BleManager;
-BleManagerModule.addListener = (eventName: string) => {};
-BleManagerModule.removeListeners = (count: number) => {};
+import { makeAutoObservable, runInAction } from 'mobx';
+import { AppStore } from '../../Store';
 
 export class bluetoothManager {
-  bleManagerEmitter = new NativeEventEmitter(BleManagerModule);
   peripherals: Array<any> = [];
   peripheral: PeripheralInfo | null = null;
   isScanning: boolean = false;
   displayNoNameDevices: boolean = false;
   outputData: String[] = [];
   parentStore: AppStore | null = null;
+  listeners: any[] = [];
 
   setDisplayNoNameDevices(state: boolean) {
     this.displayNoNameDevices = state;
@@ -41,11 +36,32 @@ export class bluetoothManager {
 
   constructor(parentStore: AppStore) {
     this.parentStore = parentStore;
-    BleManager.start({showAlert: false}).then(() => {
-      // Success code
-      console.log('Module initialized');
+    makeAutoObservable(this, {
+      listeners: false,
+      registerListeners: false,
     });
-    makeAutoObservable(this);
+    BleManager.start({showAlert: false}).then(() => {
+      console.log('Module initialized');
+      this.registerListeners();
+    });
+  }
+
+  registerListeners() {
+    this.listeners = [
+      BleManager.onDiscoverPeripheral(
+        this.handleDiscoverPeripheral.bind(this),
+      ),
+      BleManager.onStopScan(
+        this.handleStopScan.bind(this),
+      ),
+      BleManager.onDisconnectPeripheral(
+        this.handleDisconnectedPeripheral.bind(this),
+      ),
+      BleManager.onDidUpdateValueForCharacteristic(
+        this.readNotification.bind(this),
+      ),
+    ];
+    console.log('Listeners registered');
   }
 
   clearOutput() {
@@ -75,69 +91,74 @@ export class bluetoothManager {
     this.peripherals.push(peripheral);
   }
 
-  scanDevices() {
-    this.peripherals = [];
-    if (!this.isScanning) {
+  async scanDevices() {
+    runInAction(() => {
+      this.peripherals = [];
       this.isScanning = true;
-      try {
-        console.log('Scanning...');
-        BleManager.scan({
-          serviceUUIDs: [],
-          seconds: 5,
-          allowDuplicates: false,
-        });
-      } catch (error) {
-        console.error(error);
-      }
+    });
+    try {
+      console.log('Scanning...');
+      await BleManager.scan({
+        serviceUUIDs: [],
+        seconds: 5,
+        allowDuplicates: false,
+      });
+      console.log('Scan started successfully');
+    } catch (error) {
+      console.error('Scan error:', error);
+      runInAction(() => {
+        this.isScanning = false;
+      });
     }
   }
 
   handleStopScan() {
-    this.isScanning = false;
+    console.log('handleStopScan called');
+    runInAction(() => {
+      this.isScanning = false;
+    });
     console.log('Scan is stopped');
   }
 
-  handleDisconnectedPeripheral(data) {
-    let peripheral = this.getPeripheral(data.peripheral.id);
-    if (peripheral) {
-      //peripheral.connected = false;
+  handleDisconnectedPeripheral(data: any) {
+    runInAction(() => {
+      let peripheral = this.getPeripheral(data.peripheral.id);
+      if (peripheral) {
+        this.setPeripheral(peripheral);
+      }
+      console.log('Disconnected from ' + peripheral);
+    });
+  }
+
+  handleDiscoverPeripheral(peripheral: any) {
+    console.log('Discovered peripheral:', peripheral.id, peripheral.name);
+    runInAction(() => {
       this.setPeripheral(peripheral);
-    }
-    console.log('Disconnected from ' + peripheral);
+    });
   }
 
-  handleUpdateValueForCharacteristic(data) {
-    console.log(
-      'Received data from ' +
-        data.peripheral +
-        ' characteristic ' +
-        data.characteristic,
-      data.value,
-    );
-  }
-
-  handleDiscoverPeripheral(peripheral) {
-    this.setPeripheral(peripheral);
-  }
-
-  togglePeripheralConnection(peripheral) {
+  togglePeripheralConnection(peripheral: any) {
     if (peripheral && peripheral.connected) {
       BleManager.disconnect(peripheral.id);
-      this.setPeripheral({
-        ...peripheral,
-        ...{connecting: false, connected: false, error: false},
+      runInAction(() => {
+        this.setPeripheral({
+          ...peripheral,
+          ...{connecting: false, connected: false, error: false},
+        });
       });
     } else {
       this.connectPeripheral(peripheral);
     }
   }
 
-  connectPeripheral(peripheral) {
+  connectPeripheral(peripheral: any) {
     try {
       if (peripheral) {
-        this.setPeripheral({
-          ...peripheral,
-          ...{connecting: true, connected: false, error: false},
+        runInAction(() => {
+          this.setPeripheral({
+            ...peripheral,
+            ...{connecting: true, connected: false, error: false},
+          });
         });
         BleManager.connect(peripheral.id)
           .then(() =>
@@ -146,28 +167,32 @@ export class bluetoothManager {
                 ...peripheral,
                 ...{connecting: false, connected: true, error: false},
               });
-              //this.sendInformations([0])
             }),
           )
           .catch(() => {
-            this.setPeripheral({
-              ...peripheral,
-              ...{connecting: false, connected: false, error: true},
+            runInAction(() => {
+              this.setPeripheral({
+                ...peripheral,
+                ...{connecting: false, connected: false, error: true},
+              });
             });
           });
       }
     } catch (error) {
       console.log('Connection error', error);
-      this.setPeripheral({
-        ...peripheral,
-        ...{connecting: false, connected: false},
+      runInAction(() => {
+        this.setPeripheral({
+          ...peripheral,
+          ...{connecting: false, connected: false},
+        });
       });
     }
   }
+
   isSending: boolean = false;
 
   startCommunication(
-    data,
+    data: any,
     peripheralID: string,
     serviceUUIDs?: string[] | undefined,
   ) {
@@ -177,27 +202,23 @@ export class bluetoothManager {
           this.setPeripheral({...peripheralInfo, ...{connected: true}});
           this.peripheral = peripheralInfo;
           if (!peripheralInfo.characteristics) {
-            if (this.parentStore?.errorManager !== null) {
-              this.parentStore?.errorManager.printError(
-                'Error in peripheral characteristics',
-              );
-            }
+            this.parentStore?.errorManager.printError(
+              'Error in peripheral characteristics',
+            );
             return;
           }
           peripheralInfo.characteristics.forEach(element => {
             if (!peripheralInfo.advertising.serviceUUIDs) {
-              if (this.parentStore?.errorManager !== null) {
-                this.parentStore?.errorManager.printError(
-                  'Error in peripheral service UUIDs',
-                );
-              }
+              this.parentStore?.errorManager.printError(
+                'Error in peripheral service UUIDs',
+              );
               return;
             }
             if (element.properties.Write && !this.isSending) {
               this.isSending = true;
               this.write(
                 peripheralInfo.id,
-                peripheralInfo.advertising.serviceUUIDs[0],
+                peripheralInfo.advertising.serviceUUIDs![0],
                 element.characteristic,
                 data,
               );
@@ -207,11 +228,9 @@ export class bluetoothManager {
       })
       .catch(() => {
         runInAction(() => {
-          if (this.parentStore?.errorManager !== null) {
-            this.parentStore?.errorManager.printError(
-              'Error in peripheral retrieving services',
-            );
-          }
+          this.parentStore?.errorManager.printError(
+            'Error in peripheral retrieving services',
+          );
         });
       });
   }
@@ -222,24 +241,16 @@ export class bluetoothManager {
     }
     BleManager.requestMTU(peripheralID, 512)
       .then(mtu => {
-        // Success code
         console.log('MTU size changed to ' + mtu + ' bytes');
       })
       .catch(error => {
-        // Failure code
         console.log(error);
       });
     this.peripheral.characteristics.forEach(element => {
-      if (!this.peripheral) {
-        return;
-      }
-      if (!this.peripheral.advertising.serviceUUIDs) {
+      if (!this.peripheral || !this.peripheral.advertising.serviceUUIDs) {
         return;
       }
       if (element.properties.Read) {
-        if (!this.peripheral.advertising.serviceUUIDs) {
-          return;
-        }
         BleManager.startNotification(
           peripheralID,
           serviceUUID,
@@ -259,11 +270,9 @@ export class bluetoothManager {
           this.peripheral != null &&
           !this.peripheral.advertising.serviceUUIDs
         ) {
-          if (this.parentStore?.errorManager !== null) {
-            this.parentStore?.errorManager.printError(
-              'Error in peripheral service UUIDs',
-            );
-          }
+          this.parentStore?.errorManager.printError(
+            'Error in peripheral service UUIDs',
+          );
           return;
         }
         if (
@@ -313,16 +322,16 @@ export class bluetoothManager {
         });
       })
       .catch(() => {
-        this.isSending = false;
-        if (this.parentStore?.errorManager !== null) {
+        runInAction(() => {
+          this.isSending = false;
           this.parentStore?.errorManager.printError(
             'Error while writing to peripheral',
           );
-        }
+        });
       });
   }
 
-  sendInformations(data) {
+  sendInformations(data: any) {
     for (let i = 0; i < this.peripherals.length; i++) {
       if (this.peripherals[i].connected) {
         const peripheral: PeripheralInfo = this.peripherals[i];
@@ -330,23 +339,4 @@ export class bluetoothManager {
       }
     }
   }
-
-  listeners = [
-    this.bleManagerEmitter.addListener(
-      'BleManagerDiscoverPeripheral',
-      this.handleDiscoverPeripheral.bind(this),
-    ),
-    this.bleManagerEmitter.addListener(
-      'BleManagerStopScan',
-      this.handleStopScan.bind(this),
-    ),
-    this.bleManagerEmitter.addListener(
-      'BleManagerDisconnectPeripheral',
-      this.handleDisconnectedPeripheral.bind(this),
-    ),
-    this.bleManagerEmitter.addListener(
-      'BleManagerDidUpdateValueForCharacteristic',
-      this.readNotification.bind(this),
-    ),
-  ];
 }

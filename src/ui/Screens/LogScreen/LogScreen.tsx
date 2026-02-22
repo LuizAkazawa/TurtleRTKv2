@@ -36,29 +36,8 @@ export default observer(function LogScreen({navigation}: Props) {
     return navigation.addListener('focus', async () => {
       store.logManager.handleRecordingDirectory();
       store.logManager.getLogs();
-      try {
-        const granted = await PermissionsAndroid.request(
-          PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-          {
-            title: 'Cool Photo App Camera Permission',
-            message: 'Your app needs permission.',
-            buttonNeutral: 'Ask Me Later',
-            buttonNegative: 'Cancel',
-            buttonPositive: 'OK',
-          },
-        );
-        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-          return true;
-        } else {
-          console.log('Camera permission denied');
-          return false;
-        }
-      } catch (err) {
-        console.warn(err);
-        return false;
-      }
     });
-  });
+  }, []);
   const renderHeaderTab = () => {
     return (
       <View style={styles.headerTab}>
