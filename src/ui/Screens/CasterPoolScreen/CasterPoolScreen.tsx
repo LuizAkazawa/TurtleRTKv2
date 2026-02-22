@@ -12,7 +12,7 @@ import HeaderCasterPoolScreen from './HeaderCasterPoolScreen';
 import CasterList from './CasterList';
 import CasterModal from './CasterModal';
 import FormModal from './FormModal';
-import {ConnectionStatusBar} from 'react-native-ui-lib';
+import ConnectionStatusBar from 'react-native-ui-lib/src/components/connectionStatusBar';
 
 export default observer(function CasterPoolScreen() {
   const store = useStoreContext();

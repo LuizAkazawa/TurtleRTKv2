@@ -16,7 +16,7 @@ export default observer(function RecordingScreen({navigation}: Props) {
   const [buttonText, setButtonText] = useState('Run');
 
   const HeaderButton = () => {
-    navigation.navigate('LogScr');
+    navigation.navigate('LogScreen');
   };
 
   const renderHeaderTab = () => {

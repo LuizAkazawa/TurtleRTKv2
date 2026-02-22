@@ -5,7 +5,7 @@ import SourceTable from '../../../fc/Caster/SourceTable';
 import {useStoreContext} from '../../../fc/Store';
 import {styles} from './CasterPoolScreen';
 import {observer} from 'mobx-react-lite';
-import {Colors, Drawer} from 'react-native-ui-lib';
+import Swipeable from 'react-native-gesture-handler/ReanimatedSwipeable';
 
 interface CasterListItem {
   item: SourceTable;
@@ -29,15 +29,24 @@ export default observer(function CasterListItem({
   function handleShowCasterInfo() {
     showCasterInfo(item);
   }
+
+  function renderRightActions() {
+    return (
+      <Pressable
+        onPress={() => store.casterPool.removeCaster(item)}
+        style={{
+          backgroundColor: '#c0392b',
+          justifyContent: 'center',
+          alignItems: 'center',
+          width: 80,
+        }}>
+        <Text style={{color: 'white', fontWeight: 'bold'}}>Delete</Text>
+      </Pressable>
+    );
+  }
+
   return (
-    <Drawer
-      rightItems={[
-        {
-          text: 'Delete',
-          background: Colors.red30,
-          onPress: () => store.casterPool.removeCaster(item),
-        },
-      ]}>
+    <Swipeable renderRightActions={renderRightActions}>
       <View style={styles.item}>
         <Text style={styles.title}>{item.adress}</Text>
         <View
@@ -79,6 +88,6 @@ export default observer(function CasterListItem({
           </View>
         </View>
       </View>
-    </Drawer>
+    </Swipeable>
   );
 });

@@ -1,13 +1,13 @@
 import {Pressable, Text, View} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import React from 'react';
 import {observer} from 'mobx-react-lite';
 import {useStoreContext} from '../../../fc/Store';
 import {styles} from '../CasterScreen/CasterScreen';
 import {ReadDirItem} from 'react-native-fs';
-import {Colors, Drawer} from 'react-native-ui-lib';
+import Swipeable from 'react-native-gesture-handler/ReanimatedSwipeable';
+
 export interface ItemProp {
   item: ReadDirItem;
   modifySelectedLog: (string) => void;
@@ -19,21 +19,28 @@ export default observer(function BaseListItem({
 }: ItemProp) {
   const store = useStoreContext();
 
+  function renderRightActions() {
+    return (
+      <Pressable
+        onPress={() => {
+          store.logManager.delete(item.path);
+          store.logManager.getLogs();
+        }}
+        style={{
+          backgroundColor: '#c0392b',
+          justifyContent: 'center',
+          alignItems: 'center',
+          width: 80,
+        }}>
+        <Text style={{color: 'white', fontWeight: 'bold'}}>Delete</Text>
+      </Pressable>
+    );
+  }
+
   return (
-    <Drawer
-      rightItems={[
-        {
-          text: 'Delete',
-          background: Colors.red30,
-          onPress: () => {
-            store.logManager.delete(item.path);
-            store.logManager.getLogs();
-          },
-        },
-      ]}>
+    <Swipeable renderRightActions={renderRightActions}>
       <Pressable
         delayLongPress={300}
-        // onLongPress={() => showBaseInfo(item)}
         onPress={() => {
           console.log(item.path);
           store.logManager.getFile(item.path);
@@ -43,13 +50,11 @@ export default observer(function BaseListItem({
         <View style={styles.item}>
           <View style={{flexDirection: 'column'}}>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              {
-                <MaterialCommunityIcons
-                  name="file-marker-outline"
-                  color={'white'}
-                  size={30}
-                />
-              }
+              <MaterialCommunityIcons
+                name="file-marker-outline"
+                color={'white'}
+                size={30}
+              />
               <Text style={styles.title}>{'  ' + item.name}</Text>
             </View>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -88,6 +93,6 @@ export default observer(function BaseListItem({
           </View>
         </View>
       </Pressable>
-    </Drawer>
+    </Swipeable>
   );
 });
