@@ -1,10 +1,14 @@
-import BleManager, {PeripheralInfo} from 'react-native-ble-manager';
-import {NativeEventEmitter, NativeModules} from 'react-native';
+import BleManager, { BleScanCallbackType, BleScanMode, PeripheralInfo } from 'react-native-ble-manager';
+import { NativeEventEmitter, NativeModules } from 'react-native';
 import {makeAutoObservable, runInAction} from 'mobx';
 import {AppStore} from '../../Store';
 
+const BleManagerModule = NativeModules.BleManager;
+BleManagerModule.addListener = (eventName: string) => {};
+BleManagerModule.removeListeners = (count: number) => {};
+
 export class bluetoothManager {
-  bleManagerEmitter = new NativeEventEmitter(NativeModules.BleManager);
+  bleManagerEmitter = new NativeEventEmitter(BleManagerModule);
   peripherals: Array<any> = [];
   peripheral: PeripheralInfo | null = null;
   isScanning: boolean = false;
