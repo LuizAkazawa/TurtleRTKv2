@@ -165,24 +165,14 @@ export async function requestBluetoothConnectPermission() {
 
 export default observer(function App() {
   useEffect(() => {
-  //  SplashScreen.hide();
-  }, []);
+    async function requestPermissions() {
+      await requestLocationPermission();
+      await requestBluetoothScanPermission();
+      await requestBluetoothConnectPermission();
+    } requestPermissions(); 
+  },
+  []);
   var store = useStoreContext();
-  try {
-    requestLocationPermission();
-  } catch (e) {
-    console.log(e);
-  }
-  try {
-    requestBluetoothScanPermission();
-  } catch (e) {
-    console.log(e);
-  }
-  try {
-    requestBluetoothConnectPermission();
-  } catch (e) {
-    console.log(e);
-  }
   return (
     <Provider theme={MD3DarkTheme}>
       <NavigationContainer>

@@ -1,4 +1,4 @@
-import BleManager, { BleScanCallbackType, BleScanMode, PeripheralInfo } from 'react-native-ble-manager';
+import BleManager, { PeripheralInfo } from 'react-native-ble-manager';
 import { NativeEventEmitter, NativeModules } from 'react-native';
 import {makeAutoObservable, runInAction} from 'mobx';
 import {AppStore} from '../../Store';
@@ -81,7 +81,11 @@ export class bluetoothManager {
       this.isScanning = true;
       try {
         console.log('Scanning...');
-        BleManager.scan([], 5, false);
+        BleManager.scan({
+          serviceUUIDs: [],
+          seconds: 5,
+          allowDuplicates: false,
+        });
       } catch (error) {
         console.error(error);
       }
