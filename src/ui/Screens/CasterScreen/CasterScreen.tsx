@@ -1,44 +1,16 @@
 import React, {useState} from 'react';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {observer} from 'mobx-react-lite';
-
-import { SafeAreaView } from 'react-native-safe-area-context';
-
+import {SafeAreaView} from 'react-native-safe-area-context';
 import Geolocation from '@react-native-community/geolocation';
-
 import Base from '../../../fc/Caster/Base';
 import {useStoreContext} from '../../../fc/Store';
 import SourceTable from '../../../fc/Caster/SourceTable';
-import ResearchBase, {
-  filter,
-  sorter,
-  SorterKey,
-  SorterTypes,
-} from './ResearchBase';
+import ResearchBase, {filter, sorter, SorterKey, SorterTypes} from './ResearchBase';
 import HeaderCasterScreen from './HeaderCasterScreen';
 import BaseList from './BaseList';
 import BaseModal from './BaseModal';
 import ConnectedBase from './ConnectedBase';
-import ConnectionStatusBar from 'react-native-ui-lib/src/components/connectionStatusBar';
-
-let latitude = 45.184434;
-let longitude = 5.75397;
-Geolocation.getCurrentPosition(
-  position => {
-    latitude = position.coords.latitude;
-    longitude = position.coords.longitude;
-    console.log(latitude, longitude);
-  },
-  error => {
-    console.log(error.code, error.message);
-  },
-  {
-    enableHighAccuracy: true,
-    timeout: 20000,
-    maximumAge: 1000,
-    distanceFilter: 500,
-  },
-);
 
 interface Props {
   navigation: any;
@@ -52,27 +24,43 @@ export default observer(function CasterScreen({navigation}: Props) {
     [],
   );
 
+  const [latitude, setLatitude] = useState(45.184434);
+  const [longitude, setLongitude] = useState(5.75397);
   const [searchText, onChangeSearch] = useState('');
-  const [sorterFilter, setSorterFilter] = useState(SorterTypes.distance); //sorter type selected
-  const [selectedSorter, setSelectedSorter] = useState(SorterKey.mountpoint); //sorter key selected
+  const [sorterFilter, setSorterFilter] = useState(SorterTypes.distance);
+  const [selectedSorter, setSelectedSorter] = useState(SorterKey.mountpoint);
   const [isInfoVisible, setInfoVisible] = useState(false);
   const [selectedBase, setSelectedBase] = useState(mockBase);
 
-  const modifySearch = (newSearch: string) => {
-    onChangeSearch(newSearch);
-  };
+  React.useEffect(() => {
+    const watchId = Geolocation.watchPosition( 
+      position => {
+        setLatitude(position.coords.latitude);
+        setLongitude(position.coords.longitude);
+      },
+      error => {
+        console.log('Location error:', error.code, error.message);
+      },
+      {//update gps position when device moves 1 meter or more
+        enableHighAccuracy: true,
+        timeout: 30000,
+        maximumAge: 1000,
+        distanceFilter: 1,
+      },
+    );
+    return () => Geolocation.clearWatch(watchId);
+  }, []);
 
-  const modifySorterFilter = (newSorterFilter: SorterTypes) => {
-    setSorterFilter(newSorterFilter);
-  };
+  React.useEffect(() => {
+    return navigation.addListener('focus', () => {
+      store.basePool.generate(store.casterPool);
+    });
+  }, [navigation, store.basePool, store.casterPool]);
 
-  const modifySelectedSorter = (newSelectedSorter: SorterKey) => {
-    setSelectedSorter(newSelectedSorter);
-  };
-
-  const toogleInfo = () => {
-    setInfoVisible(!isInfoVisible);
-  };
+  const modifySearch = (newSearch: string) => onChangeSearch(newSearch);
+  const modifySorterFilter = (newSorterFilter: SorterTypes) => setSorterFilter(newSorterFilter);
+  const modifySelectedSorter = (newSelectedSorter: SorterKey) => setSelectedSorter(newSelectedSorter);
+  const toogleInfo = () => setInfoVisible(!isInfoVisible);
 
   function showBaseInfo(item) {
     setSelectedBase(item);
@@ -87,12 +75,6 @@ export default observer(function CasterScreen({navigation}: Props) {
     sorter(selectedSorter, sorterFilter, latitude, longitude),
   );
 
-  React.useEffect(() => {
-    return navigation.addListener('focus', () => {
-      store.basePool.generate(store.casterPool);
-    });
-  }, [navigation, store.basePool, store.casterPool]);
-
   return (
     <SafeAreaView style={styles.container}>
       <BaseModal
@@ -101,10 +83,6 @@ export default observer(function CasterScreen({navigation}: Props) {
         toogleInfo={toogleInfo}
       />
       <HeaderCasterScreen navigation={navigation} />
-      <ConnectionStatusBar
-        onConnectionChange={() => console.log('connection changed')}
-      />
-
       <ConnectedBase
         showBaseInfo={showBaseInfo}
         latitude={latitude}
@@ -164,7 +142,7 @@ export const styles = StyleSheet.create({
     paddingVertical: 5,
   },
   modal: {
-    margin: 0, // This is the important style you need to set
+    margin: 0,
   },
   sortButton: {
     flex: 1,
