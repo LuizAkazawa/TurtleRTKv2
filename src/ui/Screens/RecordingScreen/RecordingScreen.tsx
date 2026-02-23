@@ -46,12 +46,12 @@ export default observer(function RecordingScreen({navigation}: Props) {
             mode="contained"
             onPress={() => {
               if (isRunning) {
+                store.bluetoothManager.stopNotification();
                 store.logManager.write(
                   store.bluetoothManager.outputData.toString(),
                 );
                 store.casterConnection.closeConnection();
                 store.casterConnection.clear();
-                store.bluetoothManager.stopNotification();
                 store.bluetoothManager.clearOutput();
                 setRunning(false);
                 setButtonText('Run');

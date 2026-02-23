@@ -37,6 +37,10 @@ export class CasterConnection {
    */
   closeConnection() {
     this.isClosed = true;
+    if (this.flushInterval) {
+      clearInterval(this.flushInterval);
+      this.flushInterval = null;
+    }
   }
 
   /**
@@ -75,6 +79,8 @@ export class CasterConnection {
   /**
    * Handle the connection to the caster, configureConnection is necessary before
    */
+  private buffer: string[] = [];
+  private flushInterval: ReturnType<typeof setInterval> | null = null;
   getNTRIPData() {
     this.casterClient = new NtripClientV1(this.optionsV1);
     if (!this.connectedBase?.parentSourceTable.isNTRIPv1) {
@@ -82,16 +88,28 @@ export class CasterConnection {
     }
     this.isClosed = false;
 
+    //Interval to screen update (reduce lagging)
+    this.flushInterval = setInterval(() => {
+      if (this.buffer.length > 0) {
+        runInAction(() => {
+          this.inputData.push(...this.buffer);
+          this.buffer = [];
+        });
+      }
+  }, 500);
+    
     this.casterClient.on('data', data => {
-      runInAction(() => {
-        if (!this.isClosed) {
-          this.inputData.push(data);
-          this.parentStore?.bluetoothManager.sendInformations(data);
-        } else {
-          this.casterClient.client?.end();
-          this.casterClient.close();
+      if (!this.isClosed) {
+        this.buffer.push(data);
+        this.parentStore?.bluetoothManager.sendInformations(data);
+      } else {
+        this.casterClient.client?.end();
+        this.casterClient.close();
+        if (this.flushInterval) {
+          clearInterval(this.flushInterval);
+          this.flushInterval = null;
         }
-      });
+      }
     });
 
     this.casterClient.on('close', () => {});
@@ -102,6 +120,8 @@ export class CasterConnection {
 
     this.casterClient.run();
   }
+
+  
 
   generateIcon() {
     if (this.isClosed) {
