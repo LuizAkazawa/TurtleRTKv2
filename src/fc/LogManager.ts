@@ -76,12 +76,12 @@ export default class LogManager {
   /**
    * If /recordings does not exist, we create one
    */
-async handleRecordingDirectory() {
-  const exists = await RNFS.exists(this.recordingPath);
-  if (!exists) {
-    await RNFS.mkdir(this.recordingPath);
+  async handleRecordingDirectory() {
+    const exists = await RNFS.exists(this.recordingPath);
+    if (!exists) {
+      await RNFS.mkdir(this.recordingPath);
+    }
   }
-}
 
   /**
    * Write a file with content in

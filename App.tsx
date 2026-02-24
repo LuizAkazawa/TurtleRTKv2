@@ -163,31 +163,16 @@ export async function requestBluetoothScanPermission() {
   }
 }
 
-export async function requestBluetoothConnectPermission() {
-  try {
-    const granted = await PermissionsAndroid.request(
-      PermissionsAndroid.PERMISSIONS.BLUETOOTH_CONNECT,
-    );
-    if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-      console.log('Bluetooth connexion permission granted');
-    } else {
-      console.log('Bluetooth connextion permission denied');
-    }
-  } catch (err) {
-    console.warn(err);
-  }
-}
 
 export default observer(function App() {
+  var store = useStoreContext();
   useEffect(() => {
     async function requestPermissions() {
       await requestLocationPermission();
-      await requestBluetoothScanPermission();
-      await requestBluetoothConnectPermission();
     } requestPermissions(); 
   },
   []);
-  var store = useStoreContext();
+  
   return (
     <Provider theme={MD3DarkTheme}>
       <NavigationContainer>

@@ -49,6 +49,8 @@ export class bluetoothManager {
       registerListeners: false,
       isNotifying: false,
     });
+  }
+  initialize() {
     BleManager.start({showAlert: false}).then(() => {
       console.log('Module initialized');
       this.registerListeners();

@@ -1,6 +1,6 @@
 import React from 'react';
 import {Checkbox} from 'react-native-paper';
-import {View, Text, StyleSheet} from 'react-native';
+import {PermissionsAndroid, View, Text, StyleSheet} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {observer} from 'mobx-react-lite';
 import {useStoreContext} from '../../../fc/Store';
@@ -12,7 +12,48 @@ interface RoverScreenProps {
   navigation;
 }
 
+export async function requestBluetoothScanPermission() {
+  try {
+    const granted = await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.BLUETOOTH_SCAN,
+    );
+    if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+      console.log('Bluetooth Scan permission granted');
+    } else {
+      console.log('Bluetooth Scan permission denied');
+    }
+  } catch (err) {
+    console.warn(err);
+  }
+}
+
+export async function requestBluetoothConnectPermission() {
+  try {
+    const granted = await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.BLUETOOTH_CONNECT,
+    );
+    if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+      console.log('Bluetooth connexion permission granted');
+    } else {
+      console.log('Bluetooth connextion permission denied');
+    }
+  } catch (err) {
+    console.warn(err);
+  }
+}
+
+
 export default observer(function RoverScreen({navigation}: RoverScreenProps) {
+
+  React.useEffect(() => {
+    return navigation.addListener('focus', async () => {
+      await requestBluetoothScanPermission();
+      await requestBluetoothConnectPermission();
+      store.bluetoothManager.initialize();
+      await store.logManager.handleRecordingDirectory();
+    });
+  }, []);
+
   const store = useStoreContext();
 
   return (

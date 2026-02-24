@@ -1,7 +1,7 @@
 import {observer} from 'mobx-react-lite';
 import React, {useState} from 'react';
 import {Button} from 'react-native-paper';
-import {View, Text, StyleSheet, ScrollView} from 'react-native';
+import {PermissionsAndroid, View, Text, StyleSheet, ScrollView} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {useStoreContext} from '../../../fc/Store';
 
@@ -9,7 +9,9 @@ interface Props {
   navigation: any;
 }
 
+
 export default observer(function RecordingScreen({navigation}: Props) {
+
   const store = useStoreContext();
 
   const [isRunning, setRunning] = useState(false);
