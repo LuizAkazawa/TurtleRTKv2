@@ -19,6 +19,19 @@ export default observer(function RecordingScreen({navigation}: Props) {
     navigation.navigate('LogScreen');
   };
 
+const getLatLon = (sentence: string) => {
+  const parts = sentence.split(',');
+  if (parts.length < 6) return 'Invalid data';
+  return parts.slice(2, 6).join(','); // lat, latDir, lon, lonDir are always at 2,3,4,5
+};
+
+const dataLoc = store.bluetoothManager.outputData
+  .filter(item => item.toString().includes('$GNGGA'))
+  .pop() 
+  ?.toString();
+
+const lastLatLon = dataLoc ? getLatLon(dataLoc) : 'No data';
+
   const renderHeaderTab = () => {
     return (
       <View style={styles.headerTab}>
@@ -92,18 +105,8 @@ export default observer(function RecordingScreen({navigation}: Props) {
           </Text>
         </View>
         <ScrollView>
-          <Text
-            style={{
-              fontStyle: 'italic',
-              fontSize: 15,
-              color: 'white',
-              padding: 15,
-            }}>
-            {
-              store.bluetoothManager.outputData[
-                store.bluetoothManager.outputData.length - 1
-              ]
-            }
+          <Text style={{fontStyle: 'italic', fontSize: 15, color: 'white', padding: 15}}>
+            {lastLatLon ?? 'No data'}
           </Text>
         </ScrollView>
       </View>
@@ -117,7 +120,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#222',
   },
   modal: {
-    margin: 0, // This is the important style you need to set
+    margin: 0,
   },
   item: {
     backgroundColor: '#3F4141',
