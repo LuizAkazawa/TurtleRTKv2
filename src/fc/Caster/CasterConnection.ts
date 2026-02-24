@@ -82,6 +82,7 @@ export class CasterConnection {
   private buffer: string[] = [];
   private flushInterval: ReturnType<typeof setInterval> | null = null;
   getNTRIPData() {
+    this.parentStore?.bluetoothManager.startRecording();
     this.casterClient = new NtripClientV1(this.optionsV1);
     if (!this.connectedBase?.parentSourceTable.isNTRIPv1) {
       this.casterClient = new NtripClientV2(this.optionsV1);

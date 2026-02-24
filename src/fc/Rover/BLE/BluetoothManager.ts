@@ -247,7 +247,6 @@ export class bluetoothManager {
             }
             if (element.properties.Write && !this.isSending) {
               this.isSending = true;
-              this.isNotifying = true;
               this.write(
                 peripheralInfo.id,
                 peripheralInfo.advertising.serviceUUIDs![0],
@@ -317,11 +316,14 @@ export class bluetoothManager {
 
   stopNotification() {
     this.isNotifying = false;
+    /*
+    // DEBUG PRINTS
     console.log('stopNotification called');
     console.log('peripheral:', this.peripheral?.id);
     console.log('characteristics:', this.peripheral?.characteristics?.length);
     console.log('notificationPeripheralID:', this.notificationPeripheralID);
     console.log('notificationServiceUUID:', this.notificationServiceUUID);
+    */
 
     if (this.outputFlushInterval) {
       clearInterval(this.outputFlushInterval);
@@ -395,6 +397,10 @@ export class bluetoothManager {
           );
         });
       });
+  }
+  
+  startRecording() {
+    this.isNotifying = true;
   }
 
   sendInformations(data: any) { // WORK ON THIS 
