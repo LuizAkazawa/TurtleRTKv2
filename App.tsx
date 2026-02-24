@@ -74,6 +74,21 @@ function RecordingRoute() {
   );
 }
 
+const MapStack = createStackNavigator();
+function MapRoute() {
+  return (
+    <MapStack.Navigator initialRouteName="MapScreen">
+      <MapStack.Screen
+        name="MapScreen"
+        getComponent={() =>
+          require('./src/ui/Screens/MapScreen/MapScreen').default
+        }
+        options={{headerShown: false}}
+      />
+    </MapStack.Navigator>
+  );
+}
+
 const CasterStack = createStackNavigator();
 function CasterRoute() {
   return (
@@ -177,6 +192,14 @@ export default observer(function App() {
     <Provider theme={MD3DarkTheme}>
       <NavigationContainer>
         <Tab.Navigator initialRouteName="Caster">
+          <Tab.Screen
+            name="Map"
+            component={MapRoute}
+            options={{
+              tabBarLabel: 'Map',
+              tabBarIcon: createIcon('map'),
+            }}
+          />
           <Tab.Screen
             name="Caster"
             component={CasterRoute}
