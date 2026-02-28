@@ -10,6 +10,7 @@ buildscript {
     repositories {
         google()
         mavenCentral()
+        // jcenter() a été supprimé car incompatible avec Gradle 9.0+
     }
     dependencies {
         classpath("com.android.tools.build:gradle")
@@ -19,3 +20,17 @@ buildscript {
 }
 
 apply plugin: "com.facebook.react.rootproject"
+
+/**
+ * Ce bloc force toutes les bibliothèques dépendantes (comme react-native-leaflet-view)
+ * à utiliser les bons dépôts même si leurs propres fichiers internes sont obsolètes.
+ */
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+        // On remplace l'appel à la méthode jcenter() par son URL directe au cas où
+        // une bibliothèque en aurait absolument besoin, sans faire planter Gradle.
+        maven { url "https://jcenter.bintray.com/" }
+    }
+}
