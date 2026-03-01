@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, SafeAreaView } from 'react-native';
 import { LeafletView } from 'react-native-leaflet-view';
 
