@@ -8,6 +8,22 @@ const DEFAULT_LOCATION = {
 };
 
 const App: React.FC = () => {
+    const [position, setPosition] = useState({
+        lat: global.myLatitude,
+        lng: global.myLongitude,
+        initialized: global.isPositionInitialized
+      });
+  useEffect(() => {
+      const interval = setInterval(() => {
+        setPosition({
+          lat: global.myLatitude,
+          lng: global.myLongitude,
+          initialized: global.isPositionInitialized
+        });
+      }, 1000);
+
+      return () => clearInterval(interval);
+    }, []);
   return (
     <SafeAreaView style={styles.container}>
       <LeafletView
@@ -19,6 +35,13 @@ const App: React.FC = () => {
         zoom={15}  // Niveau de zoom
         doDebug={false} // Pour s'assurer que la carte occupe tout l'espace
       />
+      markers={position.initialized ? [
+                {
+                  id: '1',
+                  position: { lat: position.lat, lng: position.lng },
+                  icon: '📍',
+                },
+              ] : []}
     </SafeAreaView>
   );
 };
