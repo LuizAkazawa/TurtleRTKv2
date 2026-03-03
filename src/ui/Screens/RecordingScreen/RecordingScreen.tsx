@@ -60,6 +60,7 @@ if (dataLoc) {
     const finalLon = convertNMEAToDecimal(parts[4], parts[5]);
 
     // Mise à jour des globales pour MapScreen.tsx
+    console.log("COORDONNÉES REÇUES : ", myLatitude, myLongitude);
     global.myLatitude = finalLat;
     global.myLongitude = finalLon;
     global.isPositionInitialized = true;
