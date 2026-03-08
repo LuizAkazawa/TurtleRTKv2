@@ -9,6 +9,24 @@ interface Props {
   navigation: any;
 }
 
+const convertNMEAToDecimal = (nmeaPos: string, direction: string): number => {
+  if (!nmeaPos || !direction) return 0;
+
+  const dotIndex = nmeaPos.indexOf('.');
+  const degreesStr = nmeaPos.substring(0, dotIndex - 2);
+  const minutesStr = nmeaPos.substring(dotIndex - 2);
+
+  const degrees = parseFloat(degreesStr);
+  const minutes = parseFloat(minutesStr);
+
+  let decimal = degrees + minutes / 60;
+
+  if (direction === 'S' || direction === 'W') {
+    decimal = decimal * -1;
+  }
+
+  return decimal;
+};
 
 export default observer(function RecordingScreen({navigation}: Props) {
 
@@ -34,6 +52,22 @@ const dataLoc = store.bluetoothManager.outputData
 
 const lastLatLon = dataLoc ? getLatLon(dataLoc) : 'No data';
 
+if (dataLoc) {
+  const parts = dataLoc.split(',');
+
+  if (parts.length >= 6 && parts[2] !== '' && parts[4] !== '') {
+    const finalLat = convertNMEAToDecimal(parts[2], parts[3]);
+    const finalLon = convertNMEAToDecimal(parts[4], parts[5]);
+
+    // Mise à jour des globales pour MapScreen.tsx
+    console.log("COORDONNÉES REÇUES : ", myLatitude, myLongitude);
+    global.myLatitude = finalLat;
+    global.myLongitude = finalLon;
+    global.isPositionInitialized = true;
+
+    console.log(`Position mise à jour : ${finalLat}, ${finalLon}`);
+  }
+}
   const renderHeaderTab = () => {
     return (
       <View style={styles.headerTab}>
