@@ -4,29 +4,11 @@ import {Button} from 'react-native-paper';
 import {PermissionsAndroid, View, Text, StyleSheet, ScrollView} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {useStoreContext} from '../../../fc/Store';
+import { decode } from '../../../fc/Caster/NTRIP/nmea/nmea.js';
 
 interface Props {
   navigation: any;
 }
-
-const convertNMEAToDecimal = (nmeaPos: string, direction: string): number => {
-  if (!nmeaPos || !direction) return 0;
-
-  const dotIndex = nmeaPos.indexOf('.');
-  const degreesStr = nmeaPos.substring(0, dotIndex - 2);
-  const minutesStr = nmeaPos.substring(dotIndex - 2);
-
-  const degrees = parseFloat(degreesStr);
-  const minutes = parseFloat(minutesStr);
-
-  let decimal = degrees + minutes / 60;
-
-  if (direction === 'S' || direction === 'W') {
-    decimal = decimal * -1;
-  }
-
-  return decimal;
-};
 
 export default observer(function RecordingScreen({navigation}: Props) {
 
@@ -39,31 +21,24 @@ export default observer(function RecordingScreen({navigation}: Props) {
     navigation.navigate('LogScreen');
   };
 
-const getLatLon = (sentence: string) => {
-  const parts = sentence.split(',');
-  if (parts.length < 6) return 'Invalid data';
-  return parts.slice(2, 6).join(','); // lat, latDir, lon, lonDir are always at 2,3,4,5
-};
+const decoded = store.bluetoothManager.outputData
+  .map(item => decode(item.toString()))
+  .filter(parsed => parsed.valid);
 
-const dataLoc = store.bluetoothManager.outputData
-  .filter(item => item.toString().includes('$GNGGA'))
-  .pop() 
-  ?.toString();
+const dataLoc = decoded.filter(p => p.type?.endsWith('GGA')).pop();
 
-const lastLatLon = dataLoc ? getLatLon(dataLoc) : 'No data';
+const coordinates = dataLoc?.loc?.geojson?.coordinates ?? [];
+
 
 if (dataLoc) {
-  const parts = dataLoc.split(',');
-
-  if (parts.length >= 6 && parts[2] !== '' && parts[4] !== '') {
-    const finalLat = convertNMEAToDecimal(parts[2], parts[3]);
-    const finalLon = convertNMEAToDecimal(parts[4], parts[5]);
-
+  if (coordinates[0] !== '' && coordinates[1] !== '') {
+    const finalLat = coordinates[0];
+    const finalLon = coordinates[1];
     // Mise à jour des globales pour MapScreen.tsx
-    console.log("COORDONNÉES REÇUES : ", myLatitude, myLongitude);
     global.myLatitude = finalLat;
     global.myLongitude = finalLon;
     global.isPositionInitialized = true;
+    console.log("COORDONNÉES REÇUES : ", global.myLatitude, global.myLongitude);
 
     console.log(`Position mise à jour : ${finalLat}, ${finalLon}`);
   }
@@ -142,7 +117,7 @@ if (dataLoc) {
         </View>
         <ScrollView>
           <Text style={{fontStyle: 'italic', fontSize: 15, color: 'white', padding: 15}}>
-            {lastLatLon ?? 'No data'}
+            {`${coordinates[0] ?? 'No data'} ${coordinates[1] ?? ''}`}
           </Text>
         </ScrollView>
       </View>
