@@ -34,12 +34,13 @@ if (dataLoc) {
   if (coordinates[0] !== '' && coordinates[1] !== '') {
     const finalLat = coordinates[0];
     const finalLon = coordinates[1];
-    // Mise à jour des globales pour MapScreen.tsx
+    // Updating global variables to display them on the map
     global.myLatitude = finalLat;
     global.myLongitude = finalLon;
     global.isPositionInitialized = true;
-    console.log("COORDONNÉES REÇUES : ", global.myLatitude, global.myLongitude);
 
+    // debug
+    console.log("COORDONNÉES REÇUES : ", global.myLatitude, global.myLongitude);
     console.log(`Position mise à jour : ${finalLat}, ${finalLon}`);
   }
 }
