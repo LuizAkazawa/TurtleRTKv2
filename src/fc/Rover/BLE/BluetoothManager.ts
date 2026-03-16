@@ -186,7 +186,7 @@ export class bluetoothManager {
     }
   }
 
-  connectPeripheral(peripheral: any) {
+  connectPeripheral(peripheral: any) { 
     try {
       if (peripheral) {
         runInAction(() => {
@@ -405,11 +405,11 @@ export class bluetoothManager {
     this.isNotifying = true;
   }
 
-  sendInformations(data: any) { // WORK ON THIS 
+  sendInformations(data: any) {
     for (let i = 0; i < this.peripherals.length; i++) {
       if (this.peripherals[i].connected) {
         const peripheral: PeripheralInfo = this.peripherals[i];
-        this.startCommunication(data, peripheral.id);
+        this.startCommunication(data, peripheral.id); // change the place of this call
       }
     }
   }

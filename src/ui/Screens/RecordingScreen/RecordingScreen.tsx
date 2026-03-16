@@ -1,7 +1,7 @@
 import {observer} from 'mobx-react-lite';
 import React, {useState} from 'react';
 import {Button} from 'react-native-paper';
-import {PermissionsAndroid, View, Text, StyleSheet, ScrollView} from 'react-native';
+import { View, Text, StyleSheet, ScrollView} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {useStoreContext} from '../../../fc/Store';
 import { decode } from '../../../fc/Caster/NTRIP/nmea/nmea.js';
@@ -24,13 +24,13 @@ export default observer(function RecordingScreen({navigation}: Props) {
 const decoded = store.bluetoothManager.outputData
   .map(item => decode(item.toString()))
   .filter(parsed => parsed.valid);
-
 const dataLoc = decoded.filter(p => p.type?.endsWith('GGA')).pop();
-
 const coordinates = dataLoc?.loc?.geojson?.coordinates ?? [];
 
 
 if (dataLoc) {
+  //console.log(dataLoc);
+  // Checking if it's receiving data
   if (coordinates[0] !== '' && coordinates[1] !== '') {
     const finalLat = coordinates[0];
     const finalLon = coordinates[1];
@@ -38,7 +38,7 @@ if (dataLoc) {
     global.myLatitude = finalLat;
     global.myLongitude = finalLon;
     global.isPositionInitialized = true;
-    console.log("COORDONNÉES REÇUES : ", global.myLatitude, global.myLongitude);
+    //console.log("COORDONNÉES REÇUES : ", global.myLatitude, global.myLongitude);
 
     console.log(`Position mise à jour : ${finalLat}, ${finalLon}`);
   }
@@ -71,9 +71,11 @@ if (dataLoc) {
             onPress={() => {
               if (isRunning) {
                 store.bluetoothManager.stopNotification();
-                store.logManager.write(
-                  store.bluetoothManager.outputData.toString(),
-                );
+                const snapshot = store.bluetoothManager.outputData.slice();
+                // Write the log after UI updates
+                setTimeout(() => {
+                  store.logManager.write(snapshot.join('\n'));
+                }, 0); 
                 store.casterConnection.closeConnection();
                 store.casterConnection.clear();
                 store.bluetoothManager.clearOutput();

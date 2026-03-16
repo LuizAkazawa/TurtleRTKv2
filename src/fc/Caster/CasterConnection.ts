@@ -26,6 +26,7 @@ export class CasterConnection {
   connectedBase: Base | null = null;
   isClosed = true;
   parentStore: AppStore | null = null;
+  bleBuffer: string[] = [];
 
   constructor(parentStore: AppStore) {
     makeAutoObservable(this);
@@ -94,6 +95,10 @@ export class CasterConnection {
       if (this.buffer.length > 0) {
         runInAction(() => {
           this.inputData.push(...this.buffer);
+          if (this.bleBuffer.length > 0) {
+            const combined = this.bleBuffer.splice(0).join('');
+            this.parentStore?.bluetoothManager.sendInformations(combined);
+          }
           this.buffer = [];
         });
       }
@@ -102,7 +107,7 @@ export class CasterConnection {
     this.casterClient.on('data', data => {
       if (!this.isClosed) {
         this.buffer.push(data);
-        this.parentStore?.bluetoothManager.sendInformations(data);
+        this.bleBuffer.push(data);
       } else {
         this.casterClient.client?.end();
         this.casterClient.close();
