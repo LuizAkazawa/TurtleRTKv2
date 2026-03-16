@@ -6,6 +6,8 @@ import React from 'react';
 import {styles} from '../CasterScreen/CasterScreen';
 import {observer} from 'mobx-react-lite';
 import {useStoreContext} from '../../../fc/Store';
+import { decode } from '../../../fc/Caster/NTRIP/nmea/nmea.js';
+
 
 interface LogModalProps {
   selectedLog: string;
@@ -32,33 +34,30 @@ const exportLogToGPX = async (fileName, rawContent) => {
     <trkseg>`;
 
   // convertion of each line into GPX
-  ggaLines.forEach(line => {
+  let validPoints = 0;
+
+ggaLines.forEach(line => {
     try {
-      const parts = line.split(',');
-      const latRaw = parts[2]; //NMEA latitude
-      const latDir = parts[3]; //north or south
-      const lonRaw = parts[4]; //NMEA longitude
-      const lonDir = parts[5]; //east or west
-      const alt = parts[9];  //altitude (in meters)
+        const cleanLine = line.slice(line.indexOf('$')).trim();
+      const result = decode(cleanLine);
 
-      if (latRaw && lonRaw) {
-        // method for conversion from NMEA to decimal
-        const toDec = (nmea, dir) => {
-          const d = parseFloat(nmea.substring(0, nmea.indexOf('.') - 2));
-          const m = parseFloat(nmea.substring(nmea.indexOf('.') - 2));
-          let res = d + m / 60;
-          return dir === 'S' || dir === 'W' ? -res : res;
-        };
-        //latitude and longitude conversion
-        const lat = toDec(latRaw, latDir);
-        const lon = toDec(lonRaw, lonDir);
+      if (result && result.valid && result.loc && result.loc.geojson) {
 
-        gpx += `
+        const coords = result.loc.geojson.coordinates;
+
+        const lat = coords[0];
+        const lon = coords[1];
+        const alt = result.altitude !== null ? result.altitude : 0;
+        if (!isNaN(lat) && !isNaN(lon)) {
+          gpx += `
       <trkpt lat="${lat.toFixed(8)}" lon="${lon.toFixed(8)}">
         <ele>${alt}</ele>
+        <time>${result.datetime ? result.datetime.toISOString() : new Date().toISOString()}</time>
       </trkpt>`;
+          validPoints++;
+        }
       }
-    } catch (e) { /* ignoring the bad format lines */ }
+      }  catch (e) { /* ignoring the bad format lines */ }
   });
 
   //end of the gpx file
