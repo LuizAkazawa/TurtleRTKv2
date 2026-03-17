@@ -365,7 +365,11 @@ export class bluetoothManager {
 
   readNotification(event: any) {
     let buff = String.fromCharCode(...event.value);
-    this.outputBuffer.push(buff);
+    //console.log(buff.split(","));
+    if(buff.split(",")[0] === "$GNGGA"){
+      this.outputBuffer.push(buff);  
+    }
+    
   }
 
   write(

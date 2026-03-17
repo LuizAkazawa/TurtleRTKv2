@@ -1,7 +1,7 @@
 import {observer} from 'mobx-react-lite';
 import React, {useState} from 'react';
 import {Button} from 'react-native-paper';
-import {PermissionsAndroid, View, Text, StyleSheet, ScrollView} from 'react-native';
+import {View, Text, StyleSheet, ScrollView} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {useStoreContext} from '../../../fc/Store';
 import { decode } from '../../../fc/Caster/NTRIP/nmea/nmea.js';
@@ -23,14 +23,17 @@ export default observer(function RecordingScreen({navigation}: Props) {
 
 const decoded = store.bluetoothManager.outputData
   .map(item => decode(item.toString()))
-  .filter(parsed => parsed.valid);
+  .filter(parsed => parsed.valid)
+  .filter(p => p.type?.endsWith('GGA')).pop(); // change it
 
-const dataLoc = decoded.filter(p => p.type?.endsWith('GGA')).pop();
+//console.log(decoded);
 
-const coordinates = dataLoc?.loc?.geojson?.coordinates ?? [];
+//const dataLoc = decoded.filter(p => p.type?.endsWith('GGA')).pop();
+//console.log(dataLoc?.raw);
 
+const coordinates = decoded?.loc?.geojson?.coordinates ?? [];
 
-if (dataLoc) {
+if (decoded) {
   if (coordinates[0] !== '' && coordinates[1] !== '') {
     const finalLat = coordinates[0];
     const finalLon = coordinates[1];
@@ -44,6 +47,7 @@ if (dataLoc) {
     console.log(`Position mise à jour : ${finalLat}, ${finalLon}`);
   }
 }
+
   const renderHeaderTab = () => {
     return (
       <View style={styles.headerTab}>

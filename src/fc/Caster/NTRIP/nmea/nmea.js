@@ -94,13 +94,17 @@ const encodeTime = time => {
  */
 const degToDec = data => {
   let decimal = 0.0;
-  const _data = data.match(/(\d{2,3})(\d{2}[.]\d+),([NSWE])/).slice(1);
-  const deg = _data[0];
-  const min = _data[1];
-  const sign = _data[2];
-  decimal = parseFloat(deg) + parseFloat(min) / 60;
-  if (sign === 'S' || sign === 'W') {
-    decimal *= -1;
+  try{
+    const _data = data.match(/(\d{2,3})(\d{2}[.]\d+),([NSWE])/).slice(1);
+    const deg = _data[0];
+    const min = _data[1];
+    const sign = _data[2];
+    decimal = parseFloat(deg) + parseFloat(min) / 60;
+    if (sign === 'S' || sign === 'W') {
+      decimal *= -1;
+    }
+  }catch(error){
+    console.error(error.message);
   }
   return decimal;
 };
