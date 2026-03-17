@@ -4,6 +4,10 @@ import { LeafletView } from 'react-native-leaflet-view';
 import '../../../../global'; // ASSURE-TOI QUE LE CHEMIN EST BON
 
 const App: React.FC = () => {
+  const [mapCenter, setMapCenter] = useState({
+    lat: 45.184357,
+    lng: 5.753735,
+  });
   const [position, setPosition] = useState({
     lat: global.myLatitude,
     lng: global.myLongitude,
@@ -29,16 +33,9 @@ const App: React.FC = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* Petit indicateur visuel pour debug sans la carte */}
-      <Text style={{position: 'absolute', top: 50, zIndex: 10, backgroundColor: 'white'}}>
-        Debug : {position.lat} / {position.lng}
-      </Text>
 
 <LeafletView
-  mapCenterPosition={{
-    lat: position.lat || 48.8566,
-    lng: position.lng || 2.3522,
-  }}
+  mapCenterPosition={mapCenter}
   zoom={12}
   doDebug={false}
   mapMarkers={
