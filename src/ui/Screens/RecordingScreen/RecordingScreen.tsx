@@ -1,10 +1,9 @@
 import {observer} from 'mobx-react-lite';
-import React, {useState} from 'react';
+import React, { useState} from 'react';
 import {Button} from 'react-native-paper';
 import {View, Text, StyleSheet, ScrollView} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {useStoreContext} from '../../../fc/Store';
-import { decode } from '../../../fc/Caster/NTRIP/nmea/nmea.js';
 
 interface Props {
   navigation: any;
@@ -20,33 +19,6 @@ export default observer(function RecordingScreen({navigation}: Props) {
   const HeaderButton = () => {
     navigation.navigate('LogScreen');
   };
-
-const decoded = store.bluetoothManager.outputData
-  .map(item => decode(item.toString()))
-  .filter(parsed => parsed.valid)
-  .filter(p => p.type?.endsWith('GGA')).pop(); // change it
-
-//console.log(decoded);
-
-//const dataLoc = decoded.filter(p => p.type?.endsWith('GGA')).pop();
-//console.log(dataLoc?.raw);
-
-const coordinates = decoded?.loc?.geojson?.coordinates ?? [];
-
-if (decoded) {
-  if (coordinates[0] !== '' && coordinates[1] !== '') {
-    const finalLat = coordinates[0];
-    const finalLon = coordinates[1];
-    // Updating global variables to display them on the map
-    global.myLatitude = finalLat;
-    global.myLongitude = finalLon;
-    global.isPositionInitialized = true;
-
-    // debug
-    console.log("COORDONNÉES REÇUES : ", global.myLatitude, global.myLongitude);
-    console.log(`Position mise à jour : ${finalLat}, ${finalLon}`);
-  }
-}
 
   const renderHeaderTab = () => {
     return (
@@ -82,6 +54,7 @@ if (decoded) {
                 store.casterConnection.closeConnection();
                 store.casterConnection.clear();
                 store.bluetoothManager.clearOutput();
+                global.isPositionInitialized = false;
                 setRunning(false);
                 setButtonText('Run');
               } else {
@@ -122,7 +95,11 @@ if (decoded) {
         </View>
         <ScrollView>
           <Text style={{fontStyle: 'italic', fontSize: 15, color: 'white', padding: 15}}>
-            {`${coordinates[0] ?? 'No data'} ${coordinates[1] ?? ''}`}
+            {
+              store.bluetoothManager.outputData[
+                store.bluetoothManager.outputData.length - 1
+              ]
+            }
           </Text>
         </ScrollView>
       </View>

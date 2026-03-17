@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, SafeAreaView, Text } from 'react-native';
+import { StyleSheet} from 'react-native';
 import { LeafletView } from 'react-native-leaflet-view';
-import '../../../../global'; // ASSURE-TOI QUE LE CHEMIN EST BON
+import '../../../../global';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const App: React.FC = () => {
   const [mapCenter, setMapCenter] = useState({
@@ -15,11 +16,11 @@ const App: React.FC = () => {
   });
 
   useEffect(() => {
-    console.log("État global au démarrage :", global.myLatitude, global.myLongitude);
+    //console.log("État global au démarrage :", global.myLatitude, global.myLongitude);
 
     const interval = setInterval(() => {
       if (global.myLatitude !== position.lat) {
-        console.log("Changement détecté ! Nouvelle Lat :", global.myLatitude);
+        //console.log("Changement détecté ! Nouvelle Lat :", global.myLatitude);
         setPosition({
           lat: global.myLatitude,
           lng: global.myLongitude,
@@ -48,7 +49,7 @@ const App: React.FC = () => {
               lng: position.lng,
             },
             icon: '🔴',
-            size: [32, 32],
+            size: [16, 16],
           },
         ]
       : []
