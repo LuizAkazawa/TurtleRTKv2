@@ -11,6 +11,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import {List} from 'react-native-paper';
 
 
+
 interface Props {
   navigation: any;
 }

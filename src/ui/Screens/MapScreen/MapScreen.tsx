@@ -50,11 +50,11 @@ const App: React.FC = () => {
               lat: position.lat,
               lng: position.lng,
             },
-            icon: '📍',
+            icon: '🔴',
             size: [32, 32],
           },
         ]
-      : []  // ← tableau vide = aucun marker
+      : []
   }
 />
     </SafeAreaView>

@@ -1,5 +1,8 @@
 import RNFS from 'react-native-fs';
 import { decode } from '../Caster/NTRIP/nmea/nmea.js';
+import { copyFile } from 'react-native-saf-x';
+
+
 
 
 // Method to export Log to GPX, making the logs understandable by OpenStreetMap
@@ -7,7 +10,6 @@ export const exportLogToGPX = async (fileName: string, rawContent: string): Prom
   // we separate the lines and only keep the GGA lines
   const lines = rawContent.split('\n');
   const ggaLines = lines.filter(l => l.includes('GGA'));
-
 
   // gpx header initialisation
   let gpx = `<?xml version="1.0" encoding="UTF-8"?>
@@ -53,14 +55,17 @@ ggaLines.forEach(line => {
   </trk>
 </gpx>`;
 
-  // saving the file
-  const gpxFileName = fileName.replace('.txt', '').replace('.ubx', '') + '.gpx';
-  const path = `${RNFS.DownloadDirectoryPath}/${gpxFileName}`;
+// saving the file
+const gpxFileName = fileName.replace('.txt', '').replace('.ubx', '') + '.gpx';
+const exportDir = `${RNFS.DownloadDirectoryPath}/TurtleRTKv2`;
 
-  try {
-    await RNFS.writeFile(path, gpx, 'utf8');
-    alert(`File exported :\n${path}`);
-  } catch (err) {
-    alert("Error during the export : " + err.message);
-  }
+// create folder if doesnt exist
+const dirExists = await RNFS.exists(exportDir);
+if (!dirExists) {
+  await RNFS.mkdir(exportDir);
+}
+
+await RNFS.writeFile(`${exportDir}/${gpxFileName}`, gpx, 'utf8');
+alert(`File exported to: Downloads/TurtleRTKv2/${gpxFileName}`);
+
 };

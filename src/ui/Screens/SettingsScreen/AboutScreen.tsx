@@ -32,11 +32,14 @@ export default function RoverSettingsScreen() {
       <ScrollView style={{margin: 20}}>
         <Text style={{color: 'white'}}>Licence MIT</Text>
         <Text style={{color: 'white'}}>
-          Developers : Mattéo Decorsaire / Paul Grandhomme / Tanguy Delas /
+          Developped by : Luiz Eduardo Akazawa Nora and Rayane Labzizi
+        </Text>
+        <Text style={{color: 'white'}}>
+          Based on an app originally developped by : Mattéo Decorsaire / Paul Grandhomme / Tanguy Delas /
           Thomas Bousquet
         </Text>
         <Text style={{color: 'white'}}>
-          With the help of Yves Pratter and Eric Sibert
+          With the help of Nicolas Palix, Yves Pratter and Eric Sibert
         </Text>
       </ScrollView>
     </SafeAreaView>

@@ -13,6 +13,7 @@ import {observer} from 'mobx-react-lite';
 import {useStoreContext} from './src/fc/Store';
 import LogScreen from './src/ui/Screens/LogScreen/LogScreen';
 
+
 function createIcon(iconName: string) {
   return ({color}: {color: string}) => (
     <MaterialCommunityIcons name={iconName} color={color} size={26} />
