@@ -35,13 +35,12 @@ export class CasterConnection {
   /**
    * Close the caster connection
    */
-  closeConnection() {
-    this.isClosed = true;
-    if (this.flushInterval) {
-      clearInterval(this.flushInterval);
-      this.flushInterval = null;
-    }
-  }
+ closeConnection() {
+  this.isClosed = true;
+  this.casterClient?.client?.end();
+  this.casterClient?.close();
+}
+  
 
   /**
    * Configure the client connection to a NTRIP caster for the base
@@ -79,8 +78,6 @@ export class CasterConnection {
   /**
    * Handle the connection to the caster, configureConnection is necessary before
    */
-  private buffer: string[] = [];
-  private flushInterval: ReturnType<typeof setInterval> | null = null;
   getNTRIPData() {
     this.parentStore?.bluetoothManager.startRecording();
     this.casterClient = new NtripClientV1(this.optionsV1);
@@ -89,36 +86,17 @@ export class CasterConnection {
     }
     this.isClosed = false;
 
-    //Interval to screen update (reduce lagging)
-    this.flushInterval = setInterval(() => {
-      if (this.buffer.length > 0) {
-        runInAction(() => {
-          this.inputData.push(...this.buffer);
-          this.buffer = [];
-        });
-      }
-  }, 500);
-    
     this.casterClient.on('data', data => {
       if (!this.isClosed) {
-        this.buffer.push(data);
+        runInAction(() => {
+          this.inputData.push(data);
+        });
         this.parentStore?.bluetoothManager.sendInformations(data);
-      } else {
-        this.casterClient.client?.end();
-        this.casterClient.close();
-        if (this.flushInterval) {
-          clearInterval(this.flushInterval);
-          this.flushInterval = null;
-        }
       }
     });
 
     this.casterClient.on('close', () => {});
-
-    this.casterClient.on('error', err => {
-      console.log(err);
-    });
-
+    this.casterClient.on('error', err => { console.log(err); });
     this.casterClient.run();
   }
 

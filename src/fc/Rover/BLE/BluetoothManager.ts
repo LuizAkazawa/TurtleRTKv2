@@ -1,6 +1,7 @@
 import BleManager, { PeripheralInfo } from 'react-native-ble-manager';
 import { makeAutoObservable, runInAction } from 'mobx';
 import { AppStore } from '../../Store';
+import { decodeGGAPosition } from '../../Caster/NTRIP/nmea/nmea';
 
 export class bluetoothManager {
   peripherals: Array<any> = [];
@@ -11,13 +12,10 @@ export class bluetoothManager {
   parentStore: AppStore | null = null;
   listeners: any[] = [];
   isSending: boolean = false;
-  private outputBuffer: string[] = [];
-  private outputFlushInterval: ReturnType<typeof setInterval> | null = null;
-  private peripheralBuffer: any[] = [];
-  private scanFlushInterval: ReturnType<typeof setInterval> | null = null;
   private notificationPeripheralID: string | null = null;
   private notificationServiceUUID: string | null = null;
   isNotifying: boolean = false;
+  private hasStartedNotification: boolean = false;
 
   setDisplayNoNameDevices(state: boolean) {
     this.displayNoNameDevices = state;
@@ -50,6 +48,7 @@ export class bluetoothManager {
       isNotifying: false,
     });
   }
+
   initialize() {
     BleManager.start({showAlert: false}).then(() => {
       console.log('Module initialized');
@@ -77,7 +76,6 @@ export class bluetoothManager {
 
   clearOutput() {
     this.outputData = [];
-    this.outputBuffer = [];
   }
 
   getPeripherals() {
@@ -109,16 +107,6 @@ export class bluetoothManager {
       this.isScanning = true;
     });
 
-    this.peripheralBuffer = [];
-    this.scanFlushInterval = setInterval(() => {
-      if (this.peripheralBuffer.length > 0) {
-        runInAction(() => {
-          this.peripherals.push(...this.peripheralBuffer);
-          this.peripheralBuffer = [];
-        });
-      }
-    }, 500);
-
     try {
       console.log('Scanning...');
       await BleManager.scan({
@@ -137,16 +125,6 @@ export class bluetoothManager {
 
   handleStopScan() {
     console.log('handleStopScan called');
-    if (this.scanFlushInterval) {
-      clearInterval(this.scanFlushInterval);
-      if (this.peripheralBuffer.length > 0) {
-        runInAction(() => {
-          this.peripherals.push(...this.peripheralBuffer);
-          this.peripheralBuffer = [];
-        });
-      }
-      this.scanFlushInterval = null;
-    }
     runInAction(() => {
       this.isScanning = false;
     });
@@ -166,9 +144,10 @@ export class bluetoothManager {
   handleDiscoverPeripheral(peripheral: any) {
     console.log('Discovered peripheral:', peripheral.id, peripheral.name);
     const existsInList = this.peripherals.some(p => p.id === peripheral.id);
-    const existsInBuffer = this.peripheralBuffer.some(p => p.id === peripheral.id);
-    if (!existsInList && !existsInBuffer) {
-      this.peripheralBuffer.push(peripheral);
+    if (!existsInList) {
+      runInAction(() => {
+        this.peripherals.push(peripheral);
+      });
     }
   }
 
@@ -280,20 +259,6 @@ export class bluetoothManager {
     this.notificationPeripheralID = peripheralID;
     this.notificationServiceUUID = serviceUUID;
 
-    // Clear any existing interval before starting a new one
-    if (this.outputFlushInterval) {
-      clearInterval(this.outputFlushInterval);
-    }
-
-    this.outputFlushInterval = setInterval(() => {
-      if (this.outputBuffer.length > 0) {
-        runInAction(() => {
-          this.outputData.push(...this.outputBuffer);
-          this.outputBuffer = [];
-        });
-      }
-    }, 500);
-
     BleManager.requestMTU(peripheralID, 512)
       .then(mtu => {
         console.log('MTU size changed to ' + mtu + ' bytes');
@@ -318,20 +283,7 @@ export class bluetoothManager {
 
   stopNotification() {
     this.isNotifying = false;
-    /*
-    // DEBUG PRINTS
-    console.log('stopNotification called');
-    console.log('peripheral:', this.peripheral?.id);
-    console.log('characteristics:', this.peripheral?.characteristics?.length);
-    console.log('notificationPeripheralID:', this.notificationPeripheralID);
-    console.log('notificationServiceUUID:', this.notificationServiceUUID);
-    */
-
-    if (this.outputFlushInterval) {
-      clearInterval(this.outputFlushInterval);
-      this.outputFlushInterval = null;
-    }
-    this.outputBuffer = [];
+    this.hasStartedNotification = false;
 
     if (
       this.peripheral == null ||
@@ -364,12 +316,14 @@ export class bluetoothManager {
   }
 
   readNotification(event: any) {
+    if (!this.isNotifying) return;
     let buff = String.fromCharCode(...event.value);
-    //console.log(buff.split(","));
-    if(buff.split(",")[0] === "$GNGGA"){
-      this.outputBuffer.push(buff);  
+    if (buff.split(",")[0] === "$GNGGA") {
+      decodeGGAPosition(buff); 
+      runInAction(() => {
+        this.outputData.push(buff);
+      });
     }
-    
   }
 
   write(
@@ -390,7 +344,8 @@ export class bluetoothManager {
       .then(() => {
         runInAction(() => {
           this.isSending = false;
-          if(this.isNotifying){
+          if (this.isNotifying && !this.hasStartedNotification) {
+            this.hasStartedNotification = true; 
             this.startNotification(peripheralID, serviceUUID);
           }
         });
@@ -404,12 +359,12 @@ export class bluetoothManager {
         });
       });
   }
-  
+
   startRecording() {
     this.isNotifying = true;
   }
 
-  sendInformations(data: any) { // WORK ON THIS 
+  sendInformations(data: any) {
     for (let i = 0; i < this.peripherals.length; i++) {
       if (this.peripherals[i].connected) {
         const peripheral: PeripheralInfo = this.peripherals[i];
