@@ -104,7 +104,7 @@ const degToDec = data => {
       decimal *= -1;
     }
   }catch(error){
-    console.error(error.message);
+    //console.error(error.message);
   }
   return decimal;
 };
@@ -172,6 +172,13 @@ const decodeGGA = nmea => {
   const latitude = arr[2] + ',' + arr[3];
   const longitude = arr[4] + ',' + arr[5];
   const coordinates = [degToDec(latitude), degToDec(longitude)];
+
+  global.myLatitude = coordinates[0];
+  global.myLongitude = coordinates[1];
+  if(!global.isPositionInitialized){
+    global.isPositionInitialized = true;
+  }
+
   data.loc = {
     geojson: {
       type: 'Point',
@@ -263,7 +270,31 @@ const encode = data => {
   return '';
 };
 
+/**
+ * Decode only coordinates from GGA data and update global position
+ * @param {string} nmea
+ * @return {boolean} true if valid and updated, false otherwise
+ */
+const decodeGGAPosition = nmea => {
+  if (!verifyChecksum(nmea)) return false;
+
+  const arr = nmea.split(',');
+  const lat = degToDec(arr[2] + ',' + arr[3]);
+  const lng = degToDec(arr[4] + ',' + arr[5]);
+
+  if (lat === 0 && lng === 0) return false;
+
+  global.myLatitude = lat;
+  global.myLongitude = lng;
+  global.isPositionInitialized = true;
+
+  return true;
+};
+
+
+
 module.exports = {
   decode,
   encode,
+  decodeGGAPosition,
 };
