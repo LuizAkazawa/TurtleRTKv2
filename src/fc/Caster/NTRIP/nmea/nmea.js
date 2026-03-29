@@ -36,6 +36,19 @@ const {geoToEcef, ecefToGeo} = require('./ecef');
 // const ggaRegex = /^\$((G\w{1})?GGA),(\d{6}([.]\d+)?),(\d{4}[.]\d+,[NS]),(\d{5}[.]\d+,[WE]),([0-8]),(\d{1,2}),(\d{1,3}[.]\d{1,3})?,([-]?\d+([.]\d+)?)?,(\w*)?,(\d+([.]\d+)?)?,(\w*)?,?([-]?\d+([.]\d+)?)?,?(\d{4})?\*([0-9a-fA-F]{2})(\r\n)?$/;
 const ggaRegex = /^\$((G\w{1})?GGA).*(\r\n)?$/;
 
+const CALIBRATION_BUFFER_SIZE = 20;
+const CALIBRATION_NOISE_THRESHOLD = 0.00009; // ~10m in degrees
+const POSITION_NOISE_FILTER = 0.00027;        // ~30m in degrees
+
+let calBuffer = [];
+let isCalibrated = false;
+
+const resetCalibration = () => {
+  calBuffer = [];
+  isCalibrated = false;
+};
+
+
 const pad = (n, width, z) => {
   n = n + '';
   return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
@@ -270,25 +283,65 @@ const encode = data => {
   return '';
 };
 
+const euclideanDistance = ([lat1, lon1], [lat2, lon2]) => {
+  const dLat = lat2 - lat1;
+  const dLon = lon2 - lon1;
+  return Math.sqrt(dLat * dLat + dLon * dLon);
+};
+
 /**
  * Decode only coordinates from GGA data and update global position
  * @param {string} nmea
  * @return {boolean} true if valid and updated, false otherwise
  */
 const decodeGGAPosition = nmea => {
-  if (!verifyChecksum(nmea)) return false;
+  if (!verifyChecksum(nmea)) return 'invalid';
 
   const arr = nmea.split(',');
   const lat = degToDec(arr[2] + ',' + arr[3]);
   const lng = degToDec(arr[4] + ',' + arr[5]);
 
-  if (lat === 0 && lng === 0) return false;
+  if (lat === 0 && lng === 0) return 'invalid';
 
+  //filling the calibration buffer
+  if (!isCalibrated) {
+    calBuffer.push([lat, lng]);
+    if (calBuffer.length < CALIBRATION_BUFFER_SIZE) {
+      return 'buffering';
+    }
+
+    //buffer full, measure average noise between consecutive positions
+    let totalDist = 0;
+    for (let i = 1; i < calBuffer.length; i++) {
+      totalDist += euclideanDistance(calBuffer[i - 1], calBuffer[i]);
+    }
+    const avgNoise = totalDist / (calBuffer.length - 1);
+
+    if (avgNoise >= CALIBRATION_NOISE_THRESHOLD) {
+      // Too noisy — discard and retry
+      calBuffer = [];
+      return 'noisy';
+    }
+    isCalibrated = true;
+  }
+
+  //calibrated, reject position jumps larger than threshold
+  if (global.isPositionInitialized) {
+    const dist = euclideanDistance(
+      [global.myLatitude, global.myLongitude],
+      [lat, lng],
+    );
+    if (dist > POSITION_NOISE_FILTER) {
+      return 'filtered';
+    }
+  }
+
+  // All good — update globals
   global.myLatitude = lat;
   global.myLongitude = lng;
   global.isPositionInitialized = true;
 
-  return true;
+  return 'updated';
 };
 
 

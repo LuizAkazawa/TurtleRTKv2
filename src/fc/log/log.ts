@@ -1,17 +1,11 @@
 import RNFS from 'react-native-fs';
-import { decode } from '../Caster/NTRIP/nmea/nmea.js';
+import { decodeGGAPosition } from '../Caster/NTRIP/nmea/nmea.js';
 import { copyFile } from 'react-native-saf-x';
 
-
-
-
-// Method to export Log to GPX, making the logs understandable by OpenStreetMap
 export const exportLogToGPX = async (fileName: string, rawContent: string): Promise<void> => {
-  // we separate the lines and only keep the GGA lines
   const lines = rawContent.split('\n');
   const ggaLines = lines.filter(l => l.includes('GGA'));
 
-  // gpx header initialisation
   let gpx = `<?xml version="1.0" encoding="UTF-8"?>
 <gpx version="1.1" creator="TurtleRTKv2" xmlns="http://www.topografix.com/GPX/1/1">
   <metadata>
@@ -22,50 +16,47 @@ export const exportLogToGPX = async (fileName: string, rawContent: string): Prom
     <name>RTK Trace</name>
     <trkseg>`;
 
-  // convertion of each line into GPX
   let validPoints = 0;
 
-ggaLines.forEach(line => {
+  ggaLines.forEach(line => {
     try {
-        const cleanLine = line.slice(line.indexOf('$')).trim();
-      const result = decode(cleanLine);
+      const cleanLine = line.slice(line.indexOf('$')).trim();
 
-      if (result && result.valid && result.loc && result.loc.geojson) {
+      const prevLat = global.myLatitude;
+      const prevLon = global.myLongitude;
+      decodeGGAPosition(cleanLine);
+      if (global.myLatitude === prevLat && global.myLongitude === prevLon) return; //if lat and long dont change
 
-        const coords = result.loc.geojson.coordinates;
 
-        const lat = coords[0];
-        const lon = coords[1];
-        const alt = result.altitude !== null ? result.altitude : 0;
-        if (!isNaN(lat) && !isNaN(lon)) {
-          gpx += `
-      <trkpt lat="${lat.toFixed(8)}" lon="${lon.toFixed(8)}">
+      // Parse only what we need for GPX
+      const arr = cleanLine.split(',');
+      const alt = arr[9] ? parseFloat(arr[9]) : 0;
+      const timeRaw = arr[1]; // hhmmss.ss
+      const dateStr = new Date().toISOString().split('T')[0];
+      const time = timeRaw.replace(/(\d{2})(\d{2})(\d{2}).*/, '$1:$2:$3');
+      const datetime = new Date(`${dateStr}T${time}.000Z`);
+
+      gpx += `
+      <trkpt lat="${global.myLatitude.toFixed(8)}" lon="${global.myLongitude.toFixed(8)}">
         <ele>${alt}</ele>
-        <time>${result.datetime ? result.datetime.toISOString() : new Date().toISOString()}</time>
+        <time>${datetime.toISOString()}</time>
       </trkpt>`;
-          validPoints++;
-        }
-      }
-      }  catch (e) { /* ignoring the bad format lines */ }
+      validPoints++;
+
+    } catch (e) { /* ignore bad format lines */ }
   });
 
-  //end of the gpx file
   gpx += `
     </trkseg>
   </trk>
 </gpx>`;
 
-// saving the file
-const gpxFileName = fileName.replace('.txt', '').replace('.ubx', '') + '.gpx';
-const exportDir = `${RNFS.DownloadDirectoryPath}/TurtleRTKv2`;
+  const gpxFileName = fileName.replace('.txt', '').replace('.ubx', '') + '.gpx';
+  const exportDir = `${RNFS.DownloadDirectoryPath}/TurtleRTKv2`;
 
-// create folder if doesnt exist
-const dirExists = await RNFS.exists(exportDir);
-if (!dirExists) {
-  await RNFS.mkdir(exportDir);
-}
+  const dirExists = await RNFS.exists(exportDir);
+  if (!dirExists) await RNFS.mkdir(exportDir);
 
-await RNFS.writeFile(`${exportDir}/${gpxFileName}`, gpx, 'utf8');
-alert(`File exported to: Downloads/TurtleRTKv2/${gpxFileName}`);
-
+  await RNFS.writeFile(`${exportDir}/${gpxFileName}`, gpx, 'utf8');
+  alert(`File exported to: Downloads/TurtleRTKv2/${gpxFileName}`);
 };
